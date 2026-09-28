@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import ServicesSection from '../../components/ServicesSection.astro';
+
+const title = 'Services — Nawa';
+const description = 'Four engineering services: Custom Software Development, Cloud & Infrastructure, Automation, and Software Modernization & Integration.';
+---
+
+<Base locale="en" title={title} description={description} path="/en/services">
+  <header class="container page-header">
+    <h1>Services</h1>
+  </header>
+  <ServicesSection locale="en" />
+</Base>
+
+<style>
+  .page-header {
+    padding-top: var(--space-6);
+  }
+</style>

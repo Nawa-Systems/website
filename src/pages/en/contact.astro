@@ -1,0 +1,89 @@
+---
+import Base from '../../layouts/Base.astro';
+import { company, contactLinks } from '../../data/site';
+
+const title = 'Contact — Nawa';
+const description = 'Reach Nawa by email, phone, or WhatsApp.';
+---
+
+<Base locale="en" title={title} description={description} path="/en/contact">
+  <div class="container contact-page">
+    <header class="page-header">
+      <h1>Start a project</h1>
+      <p>Reach us directly through any of the channels below. We reply personally to every inquiry.</p>
+    </header>
+
+    <ul class="contact-list">
+      <li>
+        <span class="contact-list__label">Email</span>
+        <a href={contactLinks.email}>{company.email}</a>
+      </li>
+      <li>
+        <span class="contact-list__label">Phone</span>
+        <a href={contactLinks.phone} class="bidi-isolate">{company.phoneDisplay}</a>
+      </li>
+      <li>
+        <span class="contact-list__label">WhatsApp</span>
+        <a href={contactLinks.whatsapp} target="_blank" rel="noopener noreferrer">Message on WhatsApp</a>
+      </li>
+      <li>
+        <span class="contact-list__label">GitHub</span>
+        <a href={contactLinks.github} target="_blank" rel="noopener noreferrer">{company.githubOrg}</a>
+      </li>
+    </ul>
+
+    <p class="contact-location">{company.location.en}</p>
+  </div>
+</Base>
+
+<style>
+  .contact-page {
+    padding-block: var(--space-7) var(--space-8);
+  }
+  .page-header {
+    max-width: var(--max-width-prose);
+    margin-bottom: var(--space-6);
+  }
+  .page-header h1 {
+    font-size: var(--text-3xl);
+  }
+  .page-header p {
+    color: var(--color-secondary-text);
+    font-size: var(--text-lg);
+  }
+  .contact-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: var(--max-width-prose);
+    border-top: 1px solid var(--color-border);
+  }
+  .contact-list li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-block: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .contact-list__label {
+    color: var(--color-secondary-text);
+    font-size: var(--text-sm);
+  }
+  .contact-list a {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-medium);
+    text-decoration: none;
+    color: var(--color-near-black);
+    min-height: var(--touch-target);
+    display: inline-flex;
+    align-items: center;
+  }
+  .contact-list a:hover {
+    color: var(--color-burgundy);
+  }
+  .contact-location {
+    margin-top: var(--space-5);
+    color: var(--color-secondary-text);
+  }
+</style>

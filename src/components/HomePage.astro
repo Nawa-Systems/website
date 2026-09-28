@@ -1,0 +1,319 @@
+---
+import { services, projects } from '../data/site';
+import { getHomeCopy } from '../data/homeCopy';
+import { getAboutCopy } from '../data/aboutCopy';
+import ResponsiveImage from './ResponsiveImage.astro';
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = getHomeCopy(locale);
+const about = getAboutCopy(locale);
+
+const heroDims: Record<string, { width: number; height: number }> = {
+  rihab: { width: 2000, height: 1008 },
+  'magic-car': { width: 369, height: 800 },
+};
+---
+
+<section class="hero container">
+  <p class="hero__kicker bidi-isolate">{copy.heroKicker}</p>
+  <h1>{copy.heroTitle}</h1>
+  <p class="hero__body">{copy.heroBody}</p>
+  <div class="hero__ctas">
+    <a href={`/${locale}/contact`} class="button button-primary">{copy.heroPrimaryCta}</a>
+    <a href={`/${locale}/services`} class="button button-secondary">{copy.heroSecondaryCta}</a>
+  </div>
+</section>
+
+<section class="process container">
+  <h2 class="section-label">{copy.processTitle}</h2>
+  <ol class="process__steps">
+    {copy.process.map((p) => (
+      <li>
+        <span class="process__step-number">{p.step}</span>
+        <span>{p.label}</span>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<section class="services-preview container">
+  <div class="section-heading">
+    <h2>{copy.servicesTitle}</h2>
+    <a href={`/${locale}/services`}>{copy.servicesCta} →</a>
+  </div>
+  <p class="section-intro">{copy.servicesIntro}</p>
+  <ul class="services-preview__list">
+    {services.map((s) => (
+      <li>
+        <a href={`/${locale}/services#${s.slug}`}>{locale === 'ar' ? s.nameAr : s.nameEn}</a>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<section class="work-preview container">
+  <div class="section-heading">
+    <h2>{copy.workTitle}</h2>
+    <a href={`/${locale}/work`}>{copy.workCta} →</a>
+  </div>
+  <p class="section-intro">{copy.workIntro}</p>
+  <div class="work-preview__grid">
+    {projects.map((project) => {
+      const name = locale === 'ar' ? project.nameAr : project.nameEn;
+      const ownership = locale === 'ar' ? project.ownershipLabelAr : project.ownershipLabelEn;
+      const dims = heroDims[project.slug];
+      return (
+        <a class="work-preview__card" href={`/${locale}/work/${project.slug}`}>
+          <ResponsiveImage
+            basePath={`/work/${project.slug}/${project.heroImage}`}
+            alt={name}
+            width={dims.width}
+            height={dims.height}
+          />
+          <div class="work-preview__card-body">
+            <span>{ownership}</span>
+            <h3>{name}</h3>
+          </div>
+        </a>
+      );
+    })}
+  </div>
+</section>
+
+<section class="principles container">
+  <h2 class="section-label">{copy.principlesTitle}</h2>
+  <div class="principles__grid">
+    {copy.principles.map((p) => (
+      <div class="principles__item">
+        <h3>{p.title}</h3>
+        <p>{p.body}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<section class="founder-preview container">
+  <h2 class="section-label">{about.founderTitle}</h2>
+  <p>{about.founderBody}</p>
+  <a href={`/${locale}/about`}>{copy.founderCta} →</a>
+</section>
+
+<section class="contact-cta">
+  <div class="container contact-cta__inner">
+    <h2>{copy.contactTitle}</h2>
+    <p>{copy.contactBody}</p>
+    <a href={`/${locale}/contact`} class="button button-primary">{copy.contactCta}</a>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: var(--space-8) var(--space-7);
+    max-width: var(--max-width-prose);
+  }
+  .hero__kicker {
+    color: var(--color-rust);
+    font-weight: var(--weight-semibold);
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: var(--space-3);
+  }
+  .hero h1 {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-tight);
+    margin-bottom: var(--space-4);
+  }
+  .hero__body {
+    font-size: var(--text-lg);
+    color: var(--color-secondary-text);
+    margin-bottom: var(--space-5);
+  }
+  .hero__ctas {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .process {
+    padding-block: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+  .section-label {
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-secondary-text);
+    font-weight: var(--weight-semibold);
+    margin-bottom: var(--space-4);
+  }
+  .process__steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .process__steps li {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .process__step-number {
+    font-family: var(--font-mono);
+    color: var(--color-rust);
+    font-weight: var(--weight-medium);
+  }
+
+  .services-preview,
+  .work-preview,
+  .principles,
+  .founder-preview {
+    padding-block: var(--space-7);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: var(--space-3);
+  }
+  .section-heading h2 {
+    font-size: var(--text-2xl);
+  }
+  .section-heading a {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--color-burgundy);
+    text-decoration: none;
+  }
+  .section-intro {
+    color: var(--color-secondary-text);
+    max-width: var(--max-width-prose);
+    margin-bottom: var(--space-5);
+  }
+
+  .services-preview__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+  .services-preview__list a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--touch-target);
+    padding: 0 var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--color-near-black);
+    font-weight: var(--weight-medium);
+    font-size: var(--text-sm);
+  }
+  .services-preview__list a:hover {
+    border-color: var(--color-burgundy);
+    color: var(--color-burgundy);
+  }
+
+  .work-preview__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+  .work-preview__card {
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: block;
+  }
+  .work-preview__card :global(picture) {
+    aspect-ratio: 16/9;
+    display: block;
+    overflow: hidden;
+  }
+  .work-preview__card :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .work-preview__card-body {
+    padding: var(--space-3) var(--space-4);
+  }
+  .work-preview__card-body span {
+    font-size: var(--text-xs);
+    color: var(--color-rust);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: var(--weight-semibold);
+  }
+  .work-preview__card-body h3 {
+    margin: var(--space-1) 0 0;
+    font-size: var(--text-lg);
+  }
+
+  .principles__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
+  }
+  .principles__item h3 {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-1);
+  }
+  .principles__item p {
+    color: var(--color-secondary-text);
+    font-size: var(--text-sm);
+    margin: 0;
+  }
+
+  .founder-preview p {
+    max-width: var(--max-width-prose);
+    color: var(--color-secondary-text);
+    margin-bottom: var(--space-3);
+  }
+  .founder-preview a {
+    color: var(--color-burgundy);
+    font-weight: var(--weight-medium);
+    text-decoration: none;
+  }
+
+  .contact-cta {
+    background: var(--color-near-black);
+    color: var(--color-surface);
+    margin-top: var(--space-6);
+  }
+  .contact-cta__inner {
+    padding-block: var(--space-8);
+    max-width: var(--max-width-prose);
+  }
+  .contact-cta h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-2);
+  }
+  .contact-cta p {
+    color: #c7c8ca;
+    margin-bottom: var(--space-4);
+  }
+
+  @media (max-width: 780px) {
+    .process__steps,
+    .work-preview__grid,
+    .principles__grid {
+      grid-template-columns: 1fr;
+    }
+    .hero h1 {
+      font-size: var(--text-3xl);
+    }
+  }
+</style>

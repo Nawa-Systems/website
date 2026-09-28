@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="190 155 874 952"
+     role="img"
+     aria-labelledby="title desc">
+  <title id="title">Nawa primary symbol</title>
+  <desc id="desc">Two deep-charcoal architectural forms with a burgundy circular nucleus.</desc>
+
+  <path fill="#2A2C2F" d="
+    M281 450
+    C274 450 269 457 269 466
+    L269 771
+    C269 811 292 841 329 869
+    L536 1010
+    C547 1017 561 1009 561 996
+    L561 689
+    C561 651 544 620 510 592
+    L302 453
+    C295 448 288 447 281 450
+    Z"/>
+
+  <path fill="#2A2C2F" d="
+    M594 349
+    L894 558
+    C948 596 984 649 984 705
+    L984 1007
+    C984 1020 974 1028 961 1028
+    C955 1028 949 1026 944 1023
+    L775 912
+    C750 896 736 873 736 848
+    L736 753
+    C736 714 719 685 689 661
+    L635 625
+    C608 607 594 585 594 556
+    Z"/>
+
+  <circle fill="#6E263C" cx="875" cy="343" r="109"/>
+</svg>

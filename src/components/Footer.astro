@@ -1,0 +1,104 @@
+---
+import Logo from './Logo.astro';
+import { company, contactLinks } from '../data/site';
+import { t, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = t(locale);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__brand">
+      <Logo variant="charcoal" width={28} />
+      <span class="bidi-isolate">Nawa — نواة</span>
+      <p>{strings.footerTagline}</p>
+    </div>
+
+    <div class="site-footer__links">
+      <a href={contactLinks.email}>{strings.email}</a>
+      <a href={contactLinks.phone} class="bidi-isolate">{strings.phone} — {company.phoneDisplay}</a>
+      <a href={contactLinks.whatsapp} target="_blank" rel="noopener noreferrer">{strings.whatsapp}</a>
+      <a href={contactLinks.github} target="_blank" rel="noopener noreferrer">{strings.github}</a>
+      {contactLinks.facebook && (
+        <a href={contactLinks.facebook} target="_blank" rel="noopener noreferrer">Facebook</a>
+      )}
+    </div>
+
+    <div class="site-footer__legal">
+      <a href={`/${locale}/privacy`}>{strings.privacy}</a>
+      <a href={`/${locale}/terms`}>{strings.terms}</a>
+    </div>
+  </div>
+
+  <div class="container site-footer__bottom">
+    <p class="bidi-isolate">© {year} Nawa — نواة</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-border);
+    margin-top: var(--space-8);
+    padding-block: var(--space-6);
+    background: var(--color-subtle-surface);
+  }
+
+  .site-footer__inner {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: var(--space-5);
+  }
+
+  .site-footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    font-weight: var(--weight-semibold);
+  }
+
+  .site-footer__brand p {
+    font-weight: var(--weight-regular);
+    color: var(--color-secondary-text);
+    font-size: var(--text-sm);
+    max-width: 32ch;
+  }
+
+  .site-footer__links,
+  .site-footer__legal {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .site-footer__links a,
+  .site-footer__legal a {
+    text-decoration: none;
+    color: var(--color-secondary-text);
+    font-size: var(--text-sm);
+  }
+
+  .site-footer__links a:hover,
+  .site-footer__legal a:hover {
+    color: var(--color-burgundy);
+  }
+
+  .site-footer__bottom {
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+    color: var(--color-secondary-text);
+    font-size: var(--text-xs);
+  }
+
+  @media (max-width: 640px) {
+    .site-footer__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

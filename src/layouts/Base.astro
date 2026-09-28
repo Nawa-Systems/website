@@ -1,0 +1,91 @@
+---
+import '../styles/global.css';
+import type { Locale } from '../data/site';
+import { company } from '../data/site';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  path: string; // current pathname, e.g. /ar/services
+  ogImage?: string;
+}
+
+const { locale, title, description, path, ogImage } = Astro.props;
+const dir = locale === 'ar' ? 'rtl' : 'ltr';
+const canonical = new URL(path, Astro.site).toString();
+const alt = locale === 'ar' ? 'en' : 'ar';
+const altPath = (() => {
+  const parts = path.split('/');
+  parts[1] = alt;
+  return parts.join('/') || `/${alt}`;
+})();
+const image = ogImage ?? `${Astro.site}brand/nawa-symbol-primary.svg`;
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: company.nameFullEn,
+  url: Astro.site?.toString(),
+  logo: `${Astro.site}brand/nawa-symbol-primary.svg`,
+  email: company.email,
+  telephone: company.phone,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: company.location.en,
+  },
+};
+---
+
+<!doctype html>
+<html lang={locale} dir={dir}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="ar" href={new URL(locale === 'ar' ? path : altPath, Astro.site).toString()} />
+    <link rel="alternate" hreflang="en" href={new URL(locale === 'en' ? path : altPath, Astro.site).toString()} />
+    <link rel="alternate" hreflang="x-default" href={new URL(altPath.startsWith('/ar') ? altPath : path, Astro.site).toString()} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={company.nameFullEn} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={locale === 'ar' ? 'ar_PS' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+
+    {import.meta.env.PUBLIC_GA_MEASUREMENT_ID && (
+      <>
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_MEASUREMENT_ID}`}
+        ></script>
+        <script define:vars={{ gaId: import.meta.env.PUBLIC_GA_MEASUREMENT_ID }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId);
+        </script>
+      </>
+    )}
+  </head>
+  <body>
+    <a href="#main" class="skip-link">{locale === 'ar' ? 'تخطَّ إلى المحتوى' : 'Skip to content'}</a>
+    <Header locale={locale} path={path} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+    <script define:vars={{ locale }}>
+      document.cookie = `nawa_locale=${locale}; path=/; max-age=31536000; samesite=lax`;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+---
+interface Props {
+  variant?: 'primary' | 'charcoal' | 'white';
+  width?: number;
+  class?: string;
+}
+
+const { variant = 'primary', width = 40, class: className } = Astro.props;
+
+const files = {
+  primary: '/brand/nawa-symbol-primary.svg',
+  charcoal: '/brand/nawa-symbol-charcoal.svg',
+  white: '/brand/nawa-symbol-white.svg',
+} as const;
+
+// Symbol viewBox is 190 155 874 952 (aspect 874/952). Height must derive from
+// width to preserve the mark's proportions — never force a square box.
+const height = Math.round(width * (952 / 874));
+---
+
+<img
+  src={files[variant]}
+  alt="Nawa"
+  width={width}
+  height={height}
+  class={`icon-brand ${className ?? ''}`}
+  loading="eager"
+  decoding="async"
+/>

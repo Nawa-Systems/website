@@ -1,0 +1,12 @@
+---
+import Base from '../../../layouts/Base.astro';
+import CaseStudy from '../../../components/CaseStudy.astro';
+import { getRihabCopy } from '../../../data/caseStudies/rihabCopy';
+
+const copy = getRihabCopy('en');
+const title = `${copy.title} — Nawa`;
+---
+
+<Base locale="en" title={title} description={copy.summary} path="/en/work/rihab">
+  <CaseStudy slug="rihab" {...copy} />
+</Base>

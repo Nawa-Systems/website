@@ -1,0 +1,12 @@
+---
+import Base from '../../../layouts/Base.astro';
+import CaseStudy from '../../../components/CaseStudy.astro';
+import { getMagicCarCopy } from '../../../data/caseStudies/magicCarCopy';
+
+const copy = getMagicCarCopy('ar');
+const title = `${copy.title} — نواة`;
+---
+
+<Base locale="ar" title={title} description={copy.summary} path="/ar/work/magic-car">
+  <CaseStudy slug="magic-car" {...copy} />
+</Base>

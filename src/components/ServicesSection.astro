@@ -1,0 +1,126 @@
+---
+import { services } from '../data/site';
+import { getServicesCopy } from '../data/servicesCopy';
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = getServicesCopy(locale);
+---
+
+<section class="services-page container">
+  <p class="services-intro">{copy.intro}</p>
+
+  {services.map((service) => {
+    const sc = copy.services[service.slug];
+    const name = locale === 'ar' ? service.nameAr : service.nameEn;
+    return (
+      <article class="service-block" id={service.slug}>
+        <h2>{name}</h2>
+
+        <div class="service-block__grid">
+          <div>
+            <h3>{locale === 'ar' ? 'المشكلة' : 'The problem'}</h3>
+            <p>{sc.problem}</p>
+
+            <h3>{locale === 'ar' ? 'دور نواة' : "Nawa's role"}</h3>
+            <p>{sc.role}</p>
+          </div>
+
+          <div>
+            <h3>{locale === 'ar' ? 'شكل العمل' : 'What the work looks like'}</h3>
+            <ul>
+              {sc.work.map((item) => <li>{item}</li>)}
+            </ul>
+
+            <h3>{locale === 'ar' ? 'المبادئ' : 'Principles'}</h3>
+            <ul>
+              {sc.principles.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        </div>
+
+        <p class="service-block__relation">{sc.relation}</p>
+      </article>
+    );
+  })}
+
+  <p class="services-cross">{copy.crossService}</p>
+</section>
+
+<style>
+  .services-page {
+    padding-block: var(--space-7);
+  }
+
+  .services-intro {
+    max-width: var(--max-width-prose);
+    font-size: var(--text-lg);
+    color: var(--color-secondary-text);
+    margin-bottom: var(--space-7);
+  }
+
+  .service-block {
+    padding-block: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .service-block h2 {
+    font-size: var(--text-2xl);
+    color: var(--color-burgundy);
+    margin-bottom: var(--space-4);
+  }
+
+  .service-block__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+  }
+
+  .service-block h3 {
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-secondary-text);
+    font-weight: var(--weight-semibold);
+    margin-bottom: var(--space-1);
+  }
+
+  .service-block p,
+  .service-block ul {
+    margin-bottom: var(--space-4);
+  }
+
+  .service-block ul {
+    padding-inline-start: 1.2em;
+  }
+
+  .service-block li {
+    margin-bottom: var(--space-1);
+  }
+
+  .service-block__relation {
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px dashed var(--color-border);
+    color: var(--color-secondary-text);
+    font-size: var(--text-sm);
+  }
+
+  .services-cross {
+    margin-top: var(--space-6);
+    padding: var(--space-4);
+    background: var(--color-burgundy-soft);
+    border-radius: var(--radius-md);
+    max-width: var(--max-width-prose);
+  }
+
+  @media (max-width: 780px) {
+    .service-block__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

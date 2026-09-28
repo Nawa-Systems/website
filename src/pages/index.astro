@@ -1,0 +1,22 @@
+---
+export const prerender = false;
+
+import { defaultLocale, locales, type Locale } from '../data/site';
+
+function isLocale(value: string | undefined): value is Locale {
+  return !!value && (locales as readonly string[]).includes(value);
+}
+
+function detectFromAcceptLanguage(header: string | null): Locale {
+  if (!header) return defaultLocale;
+  const preferred = header.split(',')[0]?.split('-')[0]?.toLowerCase();
+  return isLocale(preferred) ? preferred : defaultLocale;
+}
+
+const cookieLocale = Astro.cookies.get('nawa_locale')?.value;
+const locale = isLocale(cookieLocale)
+  ? cookieLocale
+  : detectFromAcceptLanguage(Astro.request.headers.get('accept-language'));
+
+return Astro.redirect(`/${locale}`, 302);
+---

@@ -1,0 +1,11 @@
+---
+import Base from '../../layouts/Base.astro';
+import LegalPage from '../../components/LegalPage.astro';
+import { getLegalCopy } from '../../data/legalCopy';
+
+const copy = getLegalCopy('en');
+---
+
+<Base locale="en" title={`${copy.termsTitle} — Nawa`} description={copy.termsIntro} path="/en/terms">
+  <LegalPage title={copy.termsTitle} intro={copy.termsIntro} sections={copy.termsSections} />
+</Base>

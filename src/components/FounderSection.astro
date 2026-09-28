@@ -1,0 +1,74 @@
+---
+import ResponsiveImage from './ResponsiveImage.astro';
+import { founder } from '../data/site';
+import { getAboutCopy } from '../data/aboutCopy';
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = getAboutCopy(locale);
+const name = locale === 'ar' ? founder.nameAr : founder.nameEn;
+const title = locale === 'ar' ? founder.titleAr : founder.titleEn;
+---
+
+<section class="founder">
+  <div class="founder__photo">
+    <ResponsiveImage basePath={founder.photo} alt={copy.founderTitle} width={720} height={900} />
+  </div>
+  <div class="founder__content">
+    <h2>{copy.founderTitle}</h2>
+    {name ? <p class="founder__name">{name}</p> : null}
+    <p class="founder__role">{title ?? copy.founderRole}</p>
+    <p>{copy.founderBody}</p>
+  </div>
+</section>
+
+<style>
+  .founder {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--space-6);
+    align-items: start;
+  }
+
+  .founder__photo {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--color-subtle-surface);
+  }
+
+  .founder__photo img {
+    width: 100%;
+    height: auto;
+  }
+
+  .founder__content h2 {
+    font-size: var(--text-xl);
+    color: var(--color-burgundy);
+    margin-bottom: var(--space-2);
+  }
+
+  .founder__name {
+    font-weight: var(--weight-semibold);
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-1);
+  }
+
+  .founder__role {
+    color: var(--color-secondary-text);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-3);
+  }
+
+  @media (max-width: 640px) {
+    .founder {
+      grid-template-columns: 1fr;
+    }
+    .founder__photo {
+      max-width: 240px;
+    }
+  }
+</style>

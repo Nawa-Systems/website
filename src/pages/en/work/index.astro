@@ -1,0 +1,25 @@
+---
+import Base from '../../../layouts/Base.astro';
+import WorkIndex from '../../../components/WorkIndex.astro';
+
+const title = 'Work — Nawa';
+const description = "Rihab, Nawa's own product, and Magic Car, a real client integration project — two real projects with real evidence.";
+---
+
+<Base locale="en" title={title} description={description} path="/en/work">
+  <header class="container page-header">
+    <h1>Work</h1>
+    <p>Rihab is a product Nawa owns. Magic Car is client work. Every project is clearly labeled by nature.</p>
+  </header>
+  <WorkIndex locale="en" />
+</Base>
+
+<style>
+  .page-header {
+    padding-top: var(--space-6);
+    max-width: var(--max-width-prose);
+  }
+  .page-header p {
+    color: var(--color-secondary-text);
+  }
+</style>

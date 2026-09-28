@@ -1,0 +1,47 @@
+---
+interface Props {
+  title: string;
+  intro: string;
+  sections: { heading: string; body: string }[];
+}
+
+const { title, intro, sections } = Astro.props;
+---
+
+<div class="container legal-page">
+  <header class="page-header">
+    <h1>{title}</h1>
+    <p>{intro}</p>
+  </header>
+  {sections.map((s) => (
+    <section class="legal-block">
+      <h2>{s.heading}</h2>
+      <p>{s.body}</p>
+    </section>
+  ))}
+</div>
+
+<style>
+  .legal-page {
+    padding-block: var(--space-6) var(--space-8);
+    max-width: var(--max-width-prose);
+  }
+  .page-header {
+    margin-bottom: var(--space-5);
+  }
+  .page-header p {
+    color: var(--color-secondary-text);
+  }
+  .legal-block {
+    border-top: 1px solid var(--color-border);
+    padding-block: var(--space-4);
+  }
+  .legal-block h2 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2);
+  }
+  .legal-block p {
+    color: var(--color-secondary-text);
+    margin: 0;
+  }
+</style>

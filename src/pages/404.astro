@@ -1,0 +1,57 @@
+---
+import '../styles/global.css';
+import Logo from '../components/Logo.astro';
+---
+
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>404 — Nawa — نواة</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <main class="not-found">
+      <Logo variant="charcoal" width={40} />
+      <div class="not-found__lang" lang="ar" dir="rtl">
+        <h1>الصفحة غير موجودة</h1>
+        <p>الصفحة التي تبحث عنها غير موجودة أو تم نقلها.</p>
+        <a href="/ar" class="button button-primary">العودة إلى الرئيسية</a>
+      </div>
+      <div class="not-found__divider"></div>
+      <div class="not-found__lang" lang="en" dir="ltr">
+        <h1>Page not found</h1>
+        <p>The page you're looking for doesn't exist or has moved.</p>
+        <a href="/en" class="button button-primary">Back to home</a>
+      </div>
+    </main>
+  </body>
+</html>
+
+<style>
+  .not-found {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-5);
+    text-align: center;
+    padding: var(--space-5);
+  }
+  .not-found__lang h1 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-2);
+  }
+  .not-found__lang p {
+    color: var(--color-secondary-text);
+    margin-bottom: var(--space-4);
+  }
+  .not-found__divider {
+    width: 48px;
+    height: 1px;
+    background: var(--color-border);
+  }
+</style>
