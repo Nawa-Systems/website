@@ -3,6 +3,7 @@ import { services, projects } from '../data/site';
 import { getHomeCopy } from '../data/homeCopy';
 import { getAboutCopy } from '../data/aboutCopy';
 import ResponsiveImage from './ResponsiveImage.astro';
+import BrandGeometry from './BrandGeometry.astro';
 import type { Locale } from '../lib/i18n';
 
 interface Props {
@@ -13,19 +14,27 @@ const { locale } = Astro.props;
 const copy = getHomeCopy(locale);
 const about = getAboutCopy(locale);
 
-const heroDims: Record<string, { width: number; height: number }> = {
-  rihab: { width: 2000, height: 1008 },
-  'magic-car': { width: 369, height: 800 },
+// Work-preview imagery. Both use a deliberate landscape composition: Rihab's
+// storefront and Magic Car's architecture diagram. Portrait mobile screenshots
+// are shown uncropped inside the case studies, not squeezed into a card.
+const previewImage: Record<string, { key: string; width: number; height: number }> = {
+  rihab: { key: 'marketplace-home', width: 2000, height: 1008 },
+  'magic-car': { key: 'diagram-resilient-catalog', width: 1774, height: 887 },
 };
 ---
 
 <section class="hero container">
-  <p class="hero__kicker bidi-isolate">{copy.heroKicker}</p>
-  <h1>{copy.heroTitle}</h1>
-  <p class="hero__body">{copy.heroBody}</p>
-  <div class="hero__ctas">
-    <a href={`/${locale}/contact`} class="button button-primary">{copy.heroPrimaryCta}</a>
-    <a href={`/${locale}/services`} class="button button-secondary">{copy.heroSecondaryCta}</a>
+  <div class="hero__text">
+    <p class="hero__kicker bidi-isolate">{copy.heroKicker}</p>
+    <h1>{copy.heroTitle}</h1>
+    <p class="hero__body">{copy.heroBody}</p>
+    <div class="hero__ctas">
+      <a href={`/${locale}/contact`} class="button button-primary">{copy.heroPrimaryCta}</a>
+      <a href={`/${locale}/services`} class="button button-secondary">{copy.heroSecondaryCta}</a>
+    </div>
+  </div>
+  <div class="hero__visual">
+    <BrandGeometry variant="system" />
   </div>
 </section>
 
@@ -33,9 +42,10 @@ const heroDims: Record<string, { width: number; height: number }> = {
   <h2 class="section-label">{copy.processTitle}</h2>
   <ol class="process__steps">
     {copy.process.map((p) => (
-      <li>
+      <li class="process__step">
+        <span class="process__node" aria-hidden="true"></span>
         <span class="process__step-number">{p.step}</span>
-        <span>{p.label}</span>
+        <span class="process__step-label">{p.label}</span>
       </li>
     ))}
   </ol>
@@ -44,13 +54,16 @@ const heroDims: Record<string, { width: number; height: number }> = {
 <section class="services-preview container">
   <div class="section-heading">
     <h2>{copy.servicesTitle}</h2>
-    <a href={`/${locale}/services`}>{copy.servicesCta} →</a>
+    <a class="section-link" href={`/${locale}/services`}>{copy.servicesCta} <span class="link-arrow icon-directional" aria-hidden="true">→</span></a>
   </div>
   <p class="section-intro">{copy.servicesIntro}</p>
   <ul class="services-preview__list">
     {services.map((s) => (
       <li>
-        <a href={`/${locale}/services#${s.slug}`}>{locale === 'ar' ? s.nameAr : s.nameEn}</a>
+        <a href={`/${locale}/services#${s.slug}`}>
+          <span class="services-preview__marker" aria-hidden="true"></span>
+          {locale === 'ar' ? s.nameAr : s.nameEn}
+        </a>
       </li>
     ))}
   </ul>
@@ -59,24 +72,26 @@ const heroDims: Record<string, { width: number; height: number }> = {
 <section class="work-preview container">
   <div class="section-heading">
     <h2>{copy.workTitle}</h2>
-    <a href={`/${locale}/work`}>{copy.workCta} →</a>
+    <a class="section-link" href={`/${locale}/work`}>{copy.workCta} <span class="link-arrow icon-directional" aria-hidden="true">→</span></a>
   </div>
   <p class="section-intro">{copy.workIntro}</p>
   <div class="work-preview__grid">
     {projects.map((project) => {
       const name = locale === 'ar' ? project.nameAr : project.nameEn;
       const ownership = locale === 'ar' ? project.ownershipLabelAr : project.ownershipLabelEn;
-      const dims = heroDims[project.slug];
+      const img = previewImage[project.slug];
       return (
         <a class="work-preview__card" href={`/${locale}/work/${project.slug}`}>
-          <ResponsiveImage
-            basePath={`/work/${project.slug}/${project.heroImage}`}
-            alt={name}
-            width={dims.width}
-            height={dims.height}
-          />
+          <div class="work-preview__frame">
+            <ResponsiveImage
+              basePath={`/work/${project.slug}/${img.key}`}
+              alt={name}
+              width={img.width}
+              height={img.height}
+            />
+          </div>
           <div class="work-preview__card-body">
-            <span>{ownership}</span>
+            <span class="work-preview__ownership">{ownership}</span>
             <h3>{name}</h3>
           </div>
         </a>
@@ -90,6 +105,7 @@ const heroDims: Record<string, { width: number; height: number }> = {
   <div class="principles__grid">
     {copy.principles.map((p) => (
       <div class="principles__item">
+        <span class="principles__mark" aria-hidden="true"></span>
         <h3>{p.title}</h3>
         <p>{p.body}</p>
       </div>
@@ -100,10 +116,11 @@ const heroDims: Record<string, { width: number; height: number }> = {
 <section class="founder-preview container">
   <h2 class="section-label">{about.founderTitle}</h2>
   <p>{about.founderBody}</p>
-  <a href={`/${locale}/about`}>{copy.founderCta} →</a>
+  <a class="section-link" href={`/${locale}/about`}>{copy.founderCta} <span class="link-arrow icon-directional" aria-hidden="true">→</span></a>
 </section>
 
 <section class="contact-cta">
+  <BrandGeometry variant="fragment" class="contact-cta__geo" />
   <div class="container contact-cta__inner">
     <h2>{copy.contactTitle}</h2>
     <p>{copy.contactBody}</p>
@@ -114,14 +131,20 @@ const heroDims: Record<string, { width: number; height: number }> = {
 <style>
   .hero {
     padding-block: var(--space-8) var(--space-7);
-    max-width: var(--max-width-prose);
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-6);
+    align-items: center;
+  }
+  .hero__text {
+    max-width: 40ch;
   }
   .hero__kicker {
     color: var(--color-rust);
     font-weight: var(--weight-semibold);
     font-size: var(--text-sm);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+    text-transform: var(--label-transform);
+    letter-spacing: var(--label-tracking);
     margin-bottom: var(--space-3);
   }
   .hero h1 {
@@ -136,7 +159,12 @@ const heroDims: Record<string, { width: number; height: number }> = {
   }
   .hero__ctas {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--space-3);
+  }
+  .hero__visual {
+    justify-self: center;
+    width: min(360px, 100%);
   }
 
   .process {
@@ -145,13 +173,14 @@ const heroDims: Record<string, { width: number; height: number }> = {
   }
   .section-label {
     font-size: var(--text-sm);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    text-transform: var(--label-transform);
+    letter-spacing: var(--label-tracking);
     color: var(--color-secondary-text);
     font-weight: var(--weight-semibold);
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-5);
   }
   .process__steps {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: var(--space-4);
@@ -159,15 +188,40 @@ const heroDims: Record<string, { width: number; height: number }> = {
     margin: 0;
     padding: 0;
   }
-  .process__steps li {
+  /* system-flow line linking the four step nodes */
+  .process__steps::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    inset-inline: 5%;
+    height: 1px;
+    background: var(--color-border);
+  }
+  .process__step {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
+    padding-top: var(--space-3);
+  }
+  .process__node {
+    position: absolute;
+    top: 0;
+    inset-inline-start: 0;
+    width: 11px;
+    height: 11px;
+    border-radius: 999px;
+    background: var(--color-surface);
+    border: 2px solid var(--color-burgundy);
   }
   .process__step-number {
     font-family: var(--font-mono);
     color: var(--color-rust);
     font-weight: var(--weight-medium);
+    font-size: var(--text-sm);
+  }
+  .process__step-label {
+    font-size: var(--text-sm);
   }
 
   .services-preview,
@@ -182,16 +236,21 @@ const heroDims: Record<string, { width: number; height: number }> = {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
+    gap: var(--space-3);
     margin-bottom: var(--space-3);
   }
   .section-heading h2 {
     font-size: var(--text-2xl);
   }
-  .section-heading a {
+  .section-link {
     font-size: var(--text-sm);
     font-weight: var(--weight-medium);
     color: var(--color-burgundy);
     text-decoration: none;
+    white-space: nowrap;
+  }
+  .link-arrow {
+    display: inline-block;
   }
   .section-intro {
     color: var(--color-secondary-text);
@@ -210,6 +269,7 @@ const heroDims: Record<string, { width: number; height: number }> = {
   .services-preview__list a {
     display: inline-flex;
     align-items: center;
+    gap: var(--space-2);
     min-height: var(--touch-target);
     padding: 0 var(--space-4);
     border: 1px solid var(--color-border);
@@ -219,42 +279,65 @@ const heroDims: Record<string, { width: number; height: number }> = {
     font-weight: var(--weight-medium);
     font-size: var(--text-sm);
   }
+  .services-preview__marker {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--color-burgundy);
+    flex: none;
+  }
   .services-preview__list a:hover {
     border-color: var(--color-burgundy);
     color: var(--color-burgundy);
   }
 
+  /* Editorial, asymmetric — not two identical SaaS tiles */
   .work-preview__grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-4);
+    grid-template-columns: 1.35fr 1fr;
+    gap: var(--space-5);
+    align-items: start;
   }
   .work-preview__card {
     text-decoration: none;
     color: inherit;
+    display: block;
+  }
+  .work-preview__card:first-child {
+    margin-top: 0;
+  }
+  .work-preview__card:last-child {
+    margin-top: var(--space-6);
+  }
+  .work-preview__frame {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
+    background: var(--color-subtle-surface);
     overflow: hidden;
-    display: block;
+    aspect-ratio: 16 / 10;
+    display: grid;
+    place-items: center;
   }
-  .work-preview__card :global(picture) {
-    aspect-ratio: 16/9;
-    display: block;
-    overflow: hidden;
-  }
+  .work-preview__card :global(picture),
   .work-preview__card :global(img) {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+  }
+  /* contain preserves the full frame — no meaningful evidence cropped away */
+  .work-preview__card :global(img) {
+    object-fit: contain;
+  }
+  .work-preview__card:hover .work-preview__frame {
+    border-color: var(--color-burgundy);
   }
   .work-preview__card-body {
-    padding: var(--space-3) var(--space-4);
+    padding: var(--space-3) 0 0;
   }
-  .work-preview__card-body span {
+  .work-preview__ownership {
     font-size: var(--text-xs);
     color: var(--color-rust);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    text-transform: var(--label-transform);
+    letter-spacing: var(--label-tracking);
     font-weight: var(--weight-semibold);
   }
   .work-preview__card-body h3 {
@@ -266,6 +349,18 @@ const heroDims: Record<string, { width: number; height: number }> = {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-5);
+  }
+  .principles__item {
+    padding-inline-start: var(--space-3);
+    border-inline-start: 2px solid var(--color-border);
+  }
+  .principles__mark {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--color-burgundy);
+    margin-bottom: var(--space-2);
   }
   .principles__item h3 {
     font-size: var(--text-base);
@@ -282,18 +377,25 @@ const heroDims: Record<string, { width: number; height: number }> = {
     color: var(--color-secondary-text);
     margin-bottom: var(--space-3);
   }
-  .founder-preview a {
-    color: var(--color-burgundy);
-    font-weight: var(--weight-medium);
-    text-decoration: none;
-  }
 
   .contact-cta {
+    position: relative;
+    overflow: hidden;
     background: var(--color-near-black);
     color: var(--color-surface);
     margin-top: var(--space-6);
   }
+  .contact-cta :global(.contact-cta__geo) {
+    position: absolute;
+    top: 50%;
+    inset-inline-end: var(--space-5);
+    transform: translateY(-50%);
+    width: 160px;
+    opacity: 0.14;
+    pointer-events: none;
+  }
   .contact-cta__inner {
+    position: relative;
     padding-block: var(--space-8);
     max-width: var(--max-width-prose);
   }
@@ -306,14 +408,44 @@ const heroDims: Record<string, { width: number; height: number }> = {
     margin-bottom: var(--space-4);
   }
 
+  @media (max-width: 860px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+    }
+    .hero__text {
+      max-width: none;
+    }
+    .hero__visual {
+      order: -1;
+      width: min(240px, 60%);
+      justify-self: start;
+    }
+  }
+
   @media (max-width: 780px) {
-    .process__steps,
     .work-preview__grid,
     .principles__grid {
       grid-template-columns: 1fr;
     }
+    .work-preview__card:last-child {
+      margin-top: 0;
+    }
+    .process__steps {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-5) var(--space-4);
+    }
+    .process__steps::before {
+      display: none;
+    }
     .hero h1 {
       font-size: var(--text-3xl);
+    }
+  }
+
+  @media (max-width: 420px) {
+    .process__steps {
+      grid-template-columns: 1fr;
     }
   }
 </style>

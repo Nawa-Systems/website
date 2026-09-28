@@ -1,5 +1,6 @@
 ---
 import ResponsiveImage from './ResponsiveImage.astro';
+import BrandGeometry from './BrandGeometry.astro';
 import { founder } from '../data/site';
 import { getAboutCopy } from '../data/aboutCopy';
 import type { Locale } from '../lib/i18n';
@@ -15,23 +16,38 @@ const title = locale === 'ar' ? founder.titleAr : founder.titleEn;
 ---
 
 <section class="founder">
+  <BrandGeometry variant="fragment" class="founder__geo" />
   <div class="founder__photo">
     <ResponsiveImage basePath={founder.photo} alt={copy.founderTitle} width={720} height={900} />
   </div>
   <div class="founder__content">
     <h2>{copy.founderTitle}</h2>
     {name ? <p class="founder__name">{name}</p> : null}
-    <p class="founder__role">{title ?? copy.founderRole}</p>
+    {title ? <p class="founder__role">{title}</p> : null}
     <p>{copy.founderBody}</p>
   </div>
 </section>
 
 <style>
   .founder {
+    position: relative;
     display: grid;
     grid-template-columns: 280px 1fr;
     gap: var(--space-6);
     align-items: start;
+  }
+  .founder :global(.founder__geo) {
+    position: absolute;
+    top: calc(-1 * var(--space-4));
+    inset-inline-end: 0;
+    width: 96px;
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .founder__content {
+    position: relative;
+    z-index: 1;
   }
 
   .founder__photo {

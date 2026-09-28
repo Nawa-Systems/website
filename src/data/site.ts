@@ -18,8 +18,8 @@ export const company = {
   phoneDisplay: '+972 59 991 4084',
   whatsapp: '+972595248812',
   whatsappUrl: 'https://wa.me/972595248812',
-  // TODO(verify): confirm exact Facebook URL against source docs before publish.
-  facebook: null as string | null,
+  // Confirmed public page (Nawa — نواة).
+  facebook: 'https://www.facebook.com/people/Nawa-%D9%86%D9%88%D8%A7%D8%A9/61594771801790/' as string | null,
   location: {
     ar: 'الخليل، فلسطين',
     en: 'Hebron, Palestine',
@@ -101,7 +101,9 @@ export const projects: ProjectEntry[] = [
     ownershipLabelEn: 'Client project',
     summaryAr: 'تكامل تطبيقات الطلب مع نظام ERP قائم لدى العميل، دون استبدال أنظمته.',
     summaryEn: "Ordering apps integrated with the client's existing ERP, without replacing it.",
-    heroImage: 'product-catalog',
+    // Landscape architecture diagram: a deliberate wide composition for cards.
+    // The portrait mobile screenshots stay uncropped inside the case study.
+    heroImage: 'diagram-resilient-catalog',
   },
 ];
 

@@ -70,10 +70,20 @@ function href(slug: string) {
 <script>
   const toggle = document.getElementById('nav-toggle');
   const nav = document.getElementById('site-nav');
+  function closeNav() {
+    toggle?.setAttribute('aria-expanded', 'false');
+    nav?.classList.remove('is-open');
+  }
   toggle?.addEventListener('click', () => {
     const expanded = toggle.getAttribute('aria-expanded') === 'true';
     toggle.setAttribute('aria-expanded', String(!expanded));
     nav?.classList.toggle('is-open');
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && nav?.classList.contains('is-open')) {
+      closeNav();
+      toggle?.focus();
+    }
   });
 </script>
 
@@ -169,13 +179,16 @@ function href(slug: string) {
       padding: var(--space-4);
       transform: translateY(-8px);
       opacity: 0;
+      visibility: hidden;
       pointer-events: none;
       transition: opacity var(--motion-base) var(--ease-standard),
-        transform var(--motion-base) var(--ease-standard);
+        transform var(--motion-base) var(--ease-standard),
+        visibility var(--motion-base) var(--ease-standard);
     }
 
     .site-header__nav.is-open {
       opacity: 1;
+      visibility: visible;
       pointer-events: auto;
       transform: translateY(0);
     }

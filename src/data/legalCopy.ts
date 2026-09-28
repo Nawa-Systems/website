@@ -17,11 +17,11 @@ const copy: Record<Locale, LegalCopy> = {
     privacySections: [
       {
         heading: 'ملف تعريف ارتباط تفضيل اللغة',
-        body: 'يستخدم الموقع ملف تعريف ارتباط واحداً وظيفياً (nawa_locale) لتذكّر لغتك المفضّلة بين الزيارات. هذا الملف ضروري لعمل الموقع، ولا يُستخدم للتتبع أو الإعلانات.',
+        body: 'يستخدم الموقع ملف تعريف ارتباط واحداً وظيفياً (nawa_locale) لتذكّر لغتك المختارة بين الزيارات. الموقع يعمل دونه — لكنه عندها لن يتذكّر تفضيل لغتك. هذا الملف لا يُستخدم للتتبع أو الإعلانات.',
       },
       {
         heading: 'التحليلات',
-        body: 'قد يستخدم الموقع Google Analytics لفهم كيفية استخدام الزوار للموقع بشكل عام، فقط عند تفعيله صراحة عبر إعدادات النشر. إن لم يكن مفعّلاً، لا تُجمع أي بيانات تحليلية.',
+        body: 'قد يستخدم الموقع Google Analytics لفهم كيفية استخدام الزوار للموقع بشكل عام، فقط عند تفعيله صراحة عبر إعدادات النشر. إن لم يكن مفعّلاً، لا يُحمَّل الموقع أي سكربت تحليلات ولا يجمع بيانات تحليلية خاصة به. ومع ذلك، قد يعالج مزوّد الاستضافة وشبكة التوصيل (CDN) سجلات خادم قياسية لأغراض الأمان والموثوقية.',
       },
       {
         heading: 'قنوات التواصل',
@@ -61,11 +61,11 @@ const copy: Record<Locale, LegalCopy> = {
     privacySections: [
       {
         heading: 'Language preference cookie',
-        body: "The site uses a single functional cookie (nawa_locale) to remember your preferred language between visits. It is necessary for the site to work and is not used for tracking or advertising.",
+        body: "The site uses a single functional cookie (nawa_locale) to remember your chosen language between visits. The site works without it — it simply won't remember your language preference. It is not used for tracking or advertising.",
       },
       {
         heading: 'Analytics',
-        body: 'The site may use Google Analytics to understand general usage patterns, only when explicitly enabled through deployment configuration. If it is not enabled, no analytics data is collected.',
+        body: 'The site may use Google Analytics to understand general usage patterns, only when explicitly enabled through deployment configuration. When it is not enabled, the site loads no analytics script and collects no analytics data of its own. Standard server logs may still be processed by our hosting and CDN provider for security and reliability.',
       },
       {
         heading: 'Contact channels',

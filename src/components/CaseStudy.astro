@@ -1,5 +1,6 @@
 ---
 import ResponsiveImage from './ResponsiveImage.astro';
+import BrandGeometry from './BrandGeometry.astro';
 
 interface ArchitectureBlock {
   heading: string;
@@ -54,13 +55,21 @@ const {
   lessonTitle,
   lesson,
 } = Astro.props;
+
+// Wide architecture diagrams get a full-width breakout; UI screenshots keep
+// their intrinsic ratio in an editorial grid. Split by naming convention.
+const diagrams = images.filter((img) => img.key.startsWith('diagram-'));
+const screens = images.filter((img) => !img.key.startsWith('diagram-'));
 ---
 
 <article class="case-study container">
   <header class="case-study__header">
-    <p class="case-study__eyebrow">{eyebrow}</p>
-    <h1>{title}</h1>
-    <p class="case-study__summary">{summary}</p>
+    <div class="case-study__header-text">
+      <p class="case-study__eyebrow">{eyebrow}</p>
+      <h1>{title}</h1>
+      <p class="case-study__summary">{summary}</p>
+    </div>
+    <BrandGeometry variant="fragment" class="case-study__geo" />
   </header>
 
   <section class="case-study__block">
@@ -92,21 +101,40 @@ const {
     ))}
   </section>
 
-  <section class="case-study__block">
+  <section class="case-study__block case-study__evidence">
     <h2>{evidenceTitle}</h2>
-    <div class="case-study__gallery">
-      {images.map((img) => (
-        <figure>
+
+    {screens.length > 0 && (
+      <div class="case-study__gallery">
+        {screens.map((img) => (
+          <figure class:list={['case-study__figure', { 'is-portrait': img.height > img.width }]}>
+            <div class="case-study__figure-media">
+              <ResponsiveImage
+                basePath={`/work/${slug}/${img.key}`}
+                alt={img.caption}
+                width={img.width}
+                height={img.height}
+              />
+            </div>
+            <figcaption>{img.caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+    )}
+
+    {diagrams.map((img) => (
+      <figure class="case-study__diagram">
+        <div class="case-study__diagram-media">
           <ResponsiveImage
             basePath={`/work/${slug}/${img.key}`}
             alt={img.caption}
             width={img.width}
             height={img.height}
           />
-          <figcaption>{img.caption}</figcaption>
-        </figure>
-      ))}
-    </div>
+        </div>
+        <figcaption>{img.caption}</figcaption>
+      </figure>
+    ))}
   </section>
 
   <section class="case-study__block case-study__outcome">
@@ -128,16 +156,32 @@ const {
   }
 
   .case-study__header {
-    max-width: var(--max-width-prose);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-6);
     margin-bottom: var(--space-7);
+  }
+  .case-study__header-text {
+    max-width: var(--max-width-prose);
+  }
+  .case-study :global(.case-study__geo) {
+    flex: none;
+    width: 120px;
+    margin-top: var(--space-2);
+  }
+  @media (max-width: 640px) {
+    .case-study :global(.case-study__geo) {
+      display: none;
+    }
   }
 
   .case-study__eyebrow {
     color: var(--color-rust);
     font-weight: var(--weight-semibold);
     font-size: var(--text-sm);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+    text-transform: var(--label-transform);
+    letter-spacing: var(--label-tracking);
     margin-bottom: var(--space-2);
   }
 
@@ -181,33 +225,65 @@ const {
     margin-bottom: var(--space-1);
   }
 
-  .case-study__block:has(.case-study__gallery) {
+  .case-study__evidence {
     max-width: none;
   }
 
   .case-study__gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: var(--space-4);
+    align-items: start;
   }
 
-  .case-study__gallery figure {
+  .case-study__figure {
     margin: 0;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     overflow: hidden;
   }
-
-  .case-study__gallery img {
+  /* Portrait mobile screenshots keep their ratio, centered on a neutral field
+     rather than cropped into a landscape tile. */
+  .case-study__figure.is-portrait .case-study__figure-media {
+    background: var(--color-subtle-surface);
+    display: grid;
+    place-items: center;
+    padding: var(--space-3);
+  }
+  .case-study__figure.is-portrait :global(img) {
+    max-height: 520px;
+    width: auto;
+  }
+  .case-study__figure :global(img) {
     width: 100%;
     height: auto;
+    display: block;
   }
 
-  .case-study__gallery figcaption {
+  .case-study__figure figcaption,
+  .case-study__diagram figcaption {
     padding: var(--space-2) var(--space-3);
     font-size: var(--text-xs);
     color: var(--color-secondary-text);
+  }
+
+  /* Wide architecture diagrams: full-width breakout, kept legible. */
+  .case-study__diagram {
+    margin: var(--space-5) 0 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .case-study__diagram-media {
+    overflow-x: auto;
+  }
+  .case-study__diagram :global(img) {
+    width: 100%;
+    min-width: 560px;
+    height: auto;
+    display: block;
   }
 
   .case-study__outcome {

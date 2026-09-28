@@ -65,4 +65,15 @@
   --motion-fast: 150ms;
   --motion-base: 220ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Label treatment — English uses uppercase + tracking; Arabic must not
+     (uppercase is meaningless for Arabic, and letter-spacing breaks the
+     joined script). Overridden for RTL below. */
+  --label-transform: uppercase;
+  --label-tracking: 0.05em;
+}
+
+[dir="rtl"] {
+  --label-transform: none;
+  --label-tracking: normal;
 }
