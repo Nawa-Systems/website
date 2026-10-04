@@ -1,0 +1,412 @@
+---
+import ResponsiveImage from './ResponsiveImage.astro';
+import type { Locale } from '../lib/i18n';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const isAr = locale === 'ar';
+const L = (slug: string) => `/${locale}/${slug}`;
+
+const t = isAr
+  ? {
+      bcWork: 'الأعمال', bcHere: 'رحاب', tag: 'منتج من نواة',
+      title: 'رحاب — سوق فلسطيني، مهندَس من طرفٍ إلى طرف.',
+      lead: 'يربط رحاب العملاء بالمتاجر والبائعين الفلسطينيين. خلف الواجهة نظام تشغيل كامل للسوق: مساحات عمل للتجّار، واتفاقيات تجارية، وإعداد التوصيل، وتنسيق الطلبات، ومستورد منتجات من فيسبوك.',
+      metaOwnL: 'الملكية', metaOwn: 'منتج نواة — صممته وبنته وتشغّله نواة',
+      metaSurfL: 'الواجهات', metaSurf: 'المتجر · مساحة التاجر · الإدارة · الجوّال',
+      metaIfaceL: 'الواجهة', metaIface: 'عربية أولًا، من اليمين لليسار',
+      fig01: 'الواجهة — مكان واحد لتصفّح المتاجر المستقلة، والمتاجر داخل المولات، والفئات والعلامات. الشاشات معروضة بلغتها الأصلية.',
+      s1: 'السياق',
+      context: 'كثير من المتاجر الفلسطينية تنشر منتجاتها على وسائل التواصل، لكن ليس ككتالوج منظّم يمكن للعميل البحث فيه والمقارنة والطلب منه.',
+      problemH: 'المشكلة',
+      problem: 'السوق ليس واجهة متجر. كل طلب يعبر تاجرًا، واتفاقية تجارية، وشركة توصيل، وحالة دفع — ولكل منها أدواته التشغيلية.',
+      constraintsH: 'القيود',
+      constraints: 'متاجر مستقلة ومتاجر داخل مولات؛ نماذج عمولة واشتراك؛ شركات توصيل بمعرّفات مواقع خاصة بها؛ اتفاقيات تتغيّر نسخها مع الوقت.',
+      s2: 'قرارات هندسية',
+      decisions: [
+        { id: 'D-01', h: 'التجّار مشغّلون، لا قوائم', b: 'لكل متجر مساحة عمل خاصة — المنتجات والطلبات والمرتجعات وحسابات التوصيل والمالية والعروض — مع فحص جاهزية يمنع البيع حتى تكتمل الخطوات المطلوبة.' },
+        { id: 'D-02', h: 'الاتفاقيات بيانات مُصدَّرة', b: 'اتفاقيات البائع وحماية العميل والتوصيل والنموذج التجاري تحمل نسخة مطلوبة ونسخة مقبولة، فيصبح تغيّر السياسة ظاهرًا وقابلًا للإنفاذ، لا صامتًا.' },
+        { id: 'D-03', h: 'لوجستيات محايدة تجاه الناقل', b: 'يحتفظ رحاب بمدنه ومناطقه، ويربطها بمعرّفات كل شركة توصيل. تُحدَّد أسعار التوصيل لكل مسار مدينة، مع استثناءات على مستوى المنطقة.' },
+        { id: 'D-04', h: 'الأتمتة تقترح، والناس يوافقون', b: 'ينتج مستورد فيسبوك مرشّحات منتجات منظّمة. لا شيء يصل الكتالوج حتى يراجعه التاجر.' },
+      ],
+      s3: 'إدارة المنصّة',
+      adminH: 'واجهة إدارة واحدة للمولات والمتاجر وبنية الكتالوج والعمليات.',
+      adminAnno: 'الإدارة · الكتالوج · العمليات',
+      fig02: 'لوحة الإدارة — صحة المنصّة وعمليات الطلبات، محسوبة مباشرة من نظام الطلبات.',
+      s4: 'المعمارية', otfTitle: 'من الطلب إلى التسليم.',
+      otfLead: 'يُقسَّم الطلب على عدّة تجّار، ويُسعَّر وفق النموذج التجاري، ويُوجَّه إلى شركة توصيل ويُتابَع حتى التسليم أو الإرجاع. المخطط معروض كاملًا — دون قصّ ليناسب بطاقة.',
+      otfName: 'رحاب — من الطلب إلى التسليم', otfAnno: 'تنسيق التجارة · عرض خارجي',
+      commH: 'النموذج التجاري ودورة الحياة المالية',
+      commLead: 'من اختيار الخطة والاتفاقية إلى العمولة والعمليات المالية المستمرة. يختار كل متجر العمولة أو اشتراكًا ثابتًا؛ ثم تُنشئ الطلبات أحداثًا مالية تلقائيًا.',
+      commName: 'رحاب — النموذج التجاري', commAnno: 'الخطة ← الاتفاقية ← التسجيل ← الأحداث المالية',
+      s5: 'عمليات التاجر',
+      merchH: 'مساحة عمل تخبر المتجر بما يمنعه من البيع.',
+      merchLead: 'تُظهر لوحة المتجر الجاهزية قبل الإيراد: ما المتطلبات التي تمنع البيع، وأي اتفاقيات تحتاج إجراءً، وما الذي ينتظر المتجر.',
+      fig04: 'لوحة المتجر — الجاهزية أول ما يراه التاجر.',
+      fig05: 'الاتفاقيات — النسخة المطلوبة مقابل النسخة المقبولة، لكل اتفاقية.',
+      s6: 'اللوجستيات',
+      logiH: 'خريطة رحاب، مترجَمة لكل شركة توصيل.',
+      logiLead: 'لكل شركة توصيل معرّفات مدنها ومناطقها. يحتفظ رحاب بنموذج مواقع واحد وربطٍ لكل شركة، فتصبح إضافة شركة توصيل إعدادًا — لا ترحيل بيانات.',
+      fig06: 'ربط شركات التوصيل — المدن المربوطة وغير المربوطة ظاهرة بوضوح.',
+      s7: 'الأتمتة',
+      autoH: 'من منشور فيسبوك إلى منتج معتمد في الكتالوج.',
+      autoLead: 'يصف التجّار منتجاتهم على فيسبوك أصلًا. يحوّل المستورد ذلك المحتوى إلى مرشّحات منتجات منظّمة — ويتوقّف عند التاجر، الذي يقرّر ما يُنشر.',
+      fbName: 'رحاب — مستورد فيسبوك', fbAnno: 'تمكين التجّار · عرض خارجي',
+      fig08: 'مكتبة الوسائط — كل ملف يُظهر حالته، بما فيها الإخفاقات.',
+      failH: 'الفشل حالة ظاهرة', failB: 'الملف الذي يفشل في المعالجة يقول ذلك، بدل أن يختفي بصمت من الكتالوج.',
+      nextLabel: 'دراسة الحالة التالية', nextName: 'Magic Car — التكامل، لا الاستبدال', startCta: 'ابدأ مشروعك',
+      alt01: 'واجهة رحاب على سطح المكتب: البحث والفئات والمتاجر والمولات والعلامات',
+      alt02: 'لوحة إدارة رحاب: مؤشرات صحة المنصّة وعمليات الطلبات',
+      alt04: 'لوحة تحكم المتجر مع حالة الجاهزية وملخصات المنتجات والطلبات والمالية',
+      alt05: 'الاتفاقيات والامتثال: النسخة المطلوبة والمقبولة لكل اتفاقية',
+      alt06: 'ربط مواقع شركة التوصيل: مدن رحاب مربوطة بمعرّفات الشركة، بحالات مربوط وغير مربوط',
+      alt08: 'مكتبة وسائط مع حالات المعالجة لكل ملف، بما فيها حالة فشل المعالجة',
+    }
+  : {
+      bcWork: 'Work', bcHere: 'Rihab', tag: 'Nawa Product',
+      title: 'Rihab — a Palestinian marketplace, engineered end to end.',
+      lead: 'Rihab connects customers with Palestinian shops and vendors. Behind the storefront is a full operating system for a marketplace: merchant workspaces, commercial agreements, delivery configuration, order orchestration and a Facebook product importer.',
+      metaOwnL: 'Ownership', metaOwn: 'Nawa product — designed, built and operated by Nawa',
+      metaSurfL: 'Surfaces', metaSurf: 'Storefront · merchant workspace · admin · mobile',
+      metaIfaceL: 'Interface', metaIface: 'Arabic-first, RTL',
+      fig01: 'Storefront — one place to browse independent shops, shops inside malls, categories and brands. Screens are shown in their original Arabic.',
+      s1: 'Context',
+      context: 'Many Palestinian shops already publish their products on social media, but not as a structured catalog customers can search, compare and order from.',
+      problemH: 'Problem',
+      problem: 'A marketplace is not a storefront. Every order crosses a merchant, a commercial agreement, a delivery carrier and a payment state — and each of those needs its own operating tools.',
+      constraintsH: 'Constraints',
+      constraints: 'Independent shops and shops inside malls; commission and subscription commercial models; carriers with their own location identifiers; agreements that change version over time.',
+      s2: 'Engineering decisions',
+      decisions: [
+        { id: 'D-01', h: 'Merchants are operators, not listings', b: 'Each shop gets its own workspace — products, orders, returns, delivery accounts, finance and offers — with a readiness check that blocks selling until required steps are complete.' },
+        { id: 'D-02', h: 'Agreements are versioned data', b: 'Seller, customer-protection, delivery and commercial-model agreements carry a required version and an accepted version, so a policy change is visible and enforceable rather than silent.' },
+        { id: 'D-03', h: 'Carrier-neutral logistics', b: 'Rihab keeps its own cities and areas, and maps them to each carrier’s identifiers. Delivery rates are defined per city route, with area-level exceptions.' },
+        { id: 'D-04', h: 'Automation proposes, people approve', b: 'The Facebook importer produces structured product candidates. Nothing reaches the catalog until the merchant reviews it.' },
+      ],
+      s3: 'Platform administration',
+      adminH: 'One admin surface for malls, shops, catalog structure and operations.',
+      adminAnno: 'admin · catalog · operations',
+      fig02: 'Admin dashboard — platform health and order operations, computed directly from the order system.',
+      s4: 'Architecture', otfTitle: 'Order to fulfillment.',
+      otfLead: 'An order is split across merchants, priced against the commercial model, routed to a carrier and tracked to delivery or return. The diagram is shown complete — never cropped to fit a card.',
+      otfName: 'Rihab — order to fulfillment', otfAnno: 'commerce orchestration · external view',
+      commH: 'Commercial model & financial lifecycle',
+      commLead: 'From plan selection and agreement to commission and ongoing financial operations. Each shop chooses commission or a fixed subscription; orders then create financial events automatically.',
+      commName: 'Rihab — commercial model', commAnno: 'plan → agreement → enrollment → financial events',
+      s5: 'Merchant operations',
+      merchH: 'A workspace that tells a shop what blocks it from selling.',
+      merchLead: 'The shop dashboard shows readiness before revenue: which requirements block selling, which agreements need action, and what is waiting on the shop.',
+      fig04: 'Shop dashboard — readiness is the first thing a merchant sees.',
+      fig05: 'Agreements — required version vs accepted version, per agreement.',
+      s6: 'Logistics',
+      logiH: 'Rihab’s map, translated for every carrier.',
+      logiLead: 'Carriers each have their own city and area identifiers. Rihab keeps one canonical location model and a mapping per carrier, so adding a carrier is configuration — not a data migration.',
+      fig06: 'Carrier mapping — linked and unlinked cities are explicit.',
+      s7: 'Automation',
+      autoH: 'From a Facebook post to an approved catalog product.',
+      autoLead: 'Merchants already describe their products on Facebook. The importer turns that content into structured product candidates — and stops at the merchant, who decides what is published.',
+      fbName: 'Rihab — Facebook importer', fbAnno: 'merchant enablement · external view',
+      fig08: 'Media library — every file shows its processing state, including failures.',
+      failH: 'Failure is a visible state', failB: 'A media file that fails processing says so, instead of silently disappearing from the catalog.',
+      nextLabel: 'Next case study', nextName: 'Magic Car — integration, not replacement', startCta: 'Start a project',
+      alt01: 'Rihab storefront on desktop: search, category navigation, shops, malls and brands',
+      alt02: 'Rihab admin dashboard: platform health and order operations indicators',
+      alt04: 'Shop owner dashboard with readiness status, product, order and finance summaries',
+      alt05: 'Agreements and compliance: required and accepted versions per agreement',
+      alt06: "Carrier location mapping: Rihab cities mapped to a carrier's identifiers, with linked and unlinked states",
+      alt08: 'Media library with processing states per file, including a failed-processing state',
+    };
+
+// Order-to-fulfillment lifecycle steps (bilingual)
+const otfLife = isAr ? 'دورة حياة الطلب' : 'Order lifecycle';
+const otfLifeSub = isAr ? 'تقدّم تلقائي للحالة عبر المنصّة' : 'Automated state progression across the platform';
+const otfSteps = isAr
+  ? [['01','تم الاستلام','تأكيد الدفع'],['02','قيد التحضير','التاجر يجهّز الطلب'],['03','في الطريق','جارٍ التتبّع'],['✓','تم التسليم','اكتمل الطلب']]
+  : [['01','Order received','Payment confirmed'],['02','Preparing','Vendor preparing items'],['03','In transit','Tracking in progress'],['✓','Delivered','Order complete']];
+const fin = isAr ? 'دورة الحياة المالية' : 'Financial lifecycle';
+const finSub = isAr ? 'من أحداث الطلب إلى رصيد التاجر' : 'From order events to merchant balance';
+const finSteps = isAr
+  ? [['01','حجز الطلب','حجز العمولة'],['02','تسليم الطلب','تأكيد الإتمام'],['03','حساب العمولة','تطبيق شروط الخطة'],['04','تحديث الرصيد','إضافة لحساب التاجر'],['05','تسوية / شحن','سحب أو استخدام الرصيد']]
+  : [['01','Order reserved','Reserve commission'],['02','Order delivered','Confirm completion'],['03','Commission calculated','Apply plan terms'],['04','Update balance','Add to merchant account'],['05','Payout / recharge','Withdraw or use balance']];
+const fbUnder = isAr ? 'تحت الغطاء' : 'Under the hood';
+const fbUnderSub = isAr ? 'خط استيراد موثوق وقابل للتوسّع' : 'A reliable, scalable import pipeline';
+const fbSteps = isAr
+  ? [['01','الجلب والطابور','Meta OAuth · جلب المنشورات · طابور معالجة متين'],['02','معالجة الذكاء الاصطناعي','استخلاص التفاصيل · مطابقة الفئات · كشف المتغيّرات'],['03','مراجعة التاجر','تحقّق بشري · تعديل · موافقة · تجاوز'],['04','النشر','منتجات مُتحقَّقة تُضاف لكتالوج رحاب']]
+  : [['01','Fetch & queue','Meta OAuth · fetch posts · durable processing queue'],['02','AI processing','Extract details · match categories · detect variants'],['03','Merchant review','Human verification · edit · approve · skip'],['04','Publish','Validated products added to the Rihab catalog']];
+const linkArrow = `<svg class="dir-icon" width="32" height="12" viewBox="0 0 32 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6H28M24 2l4 4-4 4"></path></svg>`;
+---
+
+<!-- HERO -->
+<section class="cs-hero">
+  <div class="wrap cs-hero-inner">
+    <nav aria-label="Breadcrumb" class="t-sm cs-bc"><a href={L('work')}>{t.bcWork}</a><span aria-hidden="true">/</span><span aria-current="page">{t.bcHere}</span></nav>
+    <div class="grid12 cs-hero-head">
+      <div class="cs-hero-l">
+        <span class="tag-own tag-product">{t.tag}</span>
+        <h1 class="t-h1">{t.title}</h1>
+        <p class="t-lead">{t.lead}</p>
+      </div>
+      <dl class="cs-meta">
+        <dt class="muted">{t.metaOwnL}</dt><dd>{t.metaOwn}</dd>
+        <dt class="muted">{t.metaSurfL}</dt><dd>{t.metaSurf}</dd>
+        <dt class="muted">{t.metaIfaceL}</dt><dd>{t.metaIface}</dd>
+      </dl>
+    </div>
+  </div>
+  <figure class="wrap-wide cs-hero-fig">
+    <ResponsiveImage basePath="/work/rihab/marketplace-home" alt={t.alt01} width={2000} height={1008} class="shot" loading="eager" />
+    <figcaption class="fig-cap"><span class="n">Fig. 01</span><span>{t.fig01}</span></figcaption>
+  </figure>
+</section>
+
+<!-- CONTEXT -->
+<section class="sec">
+  <div class="wrap grid12 cs-ctx">
+    <div class="cs-ctx-label"><p class="sec-label"><span class="ix">01</span>{t.s1}</p></div>
+    <div class="cs-ctx-cols">
+      <div><h2 class="t-h5">{t.s1}</h2><p class="t-sm">{t.context}</p></div>
+      <div><h2 class="t-h5">{t.problemH}</h2><p class="t-sm">{t.problem}</p></div>
+      <div><h2 class="t-h5">{t.constraintsH}</h2><p class="t-sm">{t.constraints}</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DECISIONS -->
+<section class="sec cs-dec-sec">
+  <div class="wrap grid12 cs-dec">
+    <div class="cs-dec-label"><p class="sec-label"><span class="ix">02</span>{t.s2}</p></div>
+    <ol class="cs-dec-list">
+      {t.decisions.map((d, i) => (
+        <li class:list={['cs-dec-row', { first: i === 0 }]}>
+          <span class="mono cs-dec-id">{d.id}</span>
+          <h3 class="t-h5">{d.h}</h3>
+          <p class="t-sm">{d.b}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<!-- ADMIN -->
+<section class="sec cs-alt">
+  <div class="wrap-wide cs-block">
+    <div class="wrap cs-block-head">
+      <div class="cs-block-head-l"><p class="sec-label"><span class="ix">03</span>{t.s3}</p><h2 class="t-h3">{t.adminH}</h2></div>
+      <p class="anno">{t.adminAnno}</p>
+    </div>
+    <figure class="cs-admin-fig">
+      <ResponsiveImage basePath="/work/rihab/admin-overview" alt={t.alt02} width={2000} height={1024} class="shot" />
+      <figcaption class="fig-cap"><span class="n">Fig. 02</span><span>{t.fig02}</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ARCHITECTURE: order to fulfillment + commercial model (reflowing diagrams) -->
+<section class="sec">
+  <div class="wrap-wide cs-block">
+    <div class="wrap cs-arch-head">
+      <div class="cs-arch-head-l"><p class="sec-label"><span class="ix">04</span>{t.s4}</p><h2 class="t-h2">{t.otfTitle}</h2></div>
+      <p class="t-body cs-arch-head-r">{t.otfLead}</p>
+    </div>
+
+    <figure class="diagram-light">
+      <div class="diagram-head"><span class="dg-title">{t.otfName}</span><span class="anno">{t.otfAnno}</span></div>
+      <div class="dg" style="padding:28px">
+        <div class="dg-flow cs-otf">
+          <div class="dg-node"><span class="dg-ico">◧</span><div><h4>{isAr ? 'العميل' : 'Customer'}</h4><p>{isAr ? 'تصفّح · دفع · تأكيد' : 'Browse · checkout · confirm'}</p></div></div>
+          <div class="dg-link lab"><span>{isAr ? 'طلب' : 'Order request'}</span><span aria-hidden="true"><Fragment set:html={linkArrow} /></span></div>
+          <div class="dg-node focal"><span class="dg-ico">◆</span><div><h4>{isAr ? 'نواة رحاب' : 'Rihab core'}</h4><p>{isAr ? 'تحقّق · إنشاء طلب · تنسيق' : 'Validate · create order · orchestrate'}</p></div></div>
+          <div class="dg-link lab"><span>{isAr ? 'طلب شحن' : 'Shipment request'}</span><span aria-hidden="true"><Fragment set:html={linkArrow} /></span></div>
+          <div class="dg-node"><span class="dg-ico">▦</span><div><h4>{isAr ? 'شركة التوصيل' : 'Carrier / logistics'}</h4><p>{isAr ? 'إنشاء شحنة · تتبّع · تسليم' : 'Create shipment · track · deliver'}</p><p class="mono" style="font-size:12px">OPost · Shiply</p></div></div>
+        </div>
+        <div class="dg-node" style="align-self:flex-start"><span class="dg-ico">◧</span><div><h4>{isAr ? 'التاجر / المتجر' : 'Vendor / merchant'}</h4><p>{isAr ? 'مراجعة · تحضير · جاهز' : 'Review · prepare · ready'}</p></div></div>
+        <div class="dg-strip">
+          <div class="lead"><b>{otfLife}</b><span>{otfLifeSub}</span></div>
+          {otfSteps.map((s, i) => (
+            <>
+              <div class:list={['dg-step', { done: s[0] === '✓' }]}><span class="num">{s[0]}</span><div><b>{s[1]}</b><span>{s[2]}</span></div></div>
+              {i < otfSteps.length - 1 && <div class="dg-link n" aria-hidden="true"><Fragment set:html={linkArrow} /></div>}
+            </>
+          ))}
+        </div>
+      </div>
+    </figure>
+
+    <div class="wrap cs-arch-head cs-arch-head2">
+      <div class="cs-arch-head-l"><h3 class="t-h3">{t.commH}</h3></div>
+      <p class="t-body cs-arch-head-r">{t.commLead}</p>
+    </div>
+    <figure class="diagram-light">
+      <div class="diagram-head"><span class="dg-title">{t.commName}</span><span class="anno">{t.commAnno}</span></div>
+      <div class="dg" style="padding:28px">
+        <div class="dg-flow cs-comm">
+          <div class="dg-node"><h4>{isAr ? 'التاجر' : 'Merchant'}</h4><p>{isAr ? 'يختار طريقة البيع على رحاب' : 'Chooses how to sell on Rihab'}</p></div>
+          <div class="dg-link" aria-hidden="true"><Fragment set:html={linkArrow} /></div>
+          <div class="dg-node"><h4>{isAr ? 'خيارات تجارية' : 'Commercial options'}</h4><div class="dg-opt"><b>{isAr ? 'عمولة' : 'Commission'}</b><span>{isAr ? 'دفع لكل عملية بيع' : 'Pay per sale'}</span></div><div class="dg-opt"><b>{isAr ? 'اشتراك ثابت' : 'Fixed subscription'}</b><span>{isAr ? 'خطة شهرية' : 'Monthly plan'}</span></div></div>
+          <div class="dg-link" aria-hidden="true"><Fragment set:html={linkArrow} /></div>
+          <div class="dg-node"><h4>{isAr ? 'مراجعة الاتفاقية' : 'Agreement review'}</h4><ul class="dg-list"><li>{isAr ? 'تفاصيل الخطة' : 'Plan details'}</li><li>{isAr ? 'الرسوم والسياسات' : 'Fees & policies'}</li><li>{isAr ? 'شروط الخدمة' : 'Terms of service'}</li></ul></div>
+          <div class="dg-link" aria-hidden="true"><Fragment set:html={linkArrow} /></div>
+          <div class="dg-node focal"><h4>{isAr ? 'التسجيل التجاري' : 'Commercial enrollment'}</h4><ul class="dg-list check"><li>{isAr ? 'التحقّق من الأهلية' : 'Verify eligibility'}</li><li>{isAr ? 'إنشاء حساب العمولة' : 'Create commission account'}</li><li>{isAr ? 'تفعيل التسجيل' : 'Activate enrollment'}</li></ul></div>
+          <div class="dg-link" aria-hidden="true"><Fragment set:html={linkArrow} /></div>
+          <div class="dg-node"><h4>{isAr ? 'حساب نشط' : 'Active account'}</h4><p>{isAr ? 'جاهز لاستقبال الطلبات' : 'Ready to receive orders'}</p></div>
+        </div>
+        <div class="dg-strip focal">
+          <div class="lead"><b>{fin}</b><span>{finSub}</span></div>
+          {finSteps.map((s, i) => (
+            <>
+              <div class:list={['dg-step', { done: i === finSteps.length - 1 }]}><span class="num">{s[0]}</span><div><b>{s[1]}</b><span>{s[2]}</span></div></div>
+              {i < finSteps.length - 1 && <div class="dg-link n" aria-hidden="true"><Fragment set:html={linkArrow} /></div>}
+            </>
+          ))}
+        </div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- MERCHANT OPERATIONS -->
+<section class="sec cs-topborder">
+  <div class="wrap-wide cs-block">
+    <div class="wrap cs-block-head">
+      <div class="cs-block-head-l"><p class="sec-label"><span class="ix">05</span>{t.s5}</p><h2 class="t-h2">{t.merchH}</h2></div>
+      <p class="t-body cs-block-head-r">{t.merchLead}</p>
+    </div>
+    <div class="grid12 cs-pair">
+      <figure class="cs-pair-a"><ResponsiveImage basePath="/work/rihab/merchant-dashboard" alt={t.alt04} width={2000} height={1008} class="shot" /><figcaption class="fig-cap"><span class="n">Fig. 04</span><span>{t.fig04}</span></figcaption></figure>
+      <figure class="cs-pair-b"><ResponsiveImage basePath="/work/rihab/agreements" alt={t.alt05} width={2000} height={1008} class="shot" /><figcaption class="fig-cap"><span class="n">Fig. 05</span><span>{t.fig05}</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- LOGISTICS -->
+<section class="sec cs-alt">
+  <div class="wrap-wide cs-block">
+    <div class="wrap cs-block-head">
+      <div class="cs-block-head-l"><p class="sec-label"><span class="ix">06</span>{t.s6}</p><h2 class="t-h2">{t.logiH}</h2></div>
+      <p class="t-body cs-block-head-r">{t.logiLead}</p>
+    </div>
+    <figure class="cs-logi-fig">
+      <ResponsiveImage basePath="/work/rihab/carrier-mapping" alt={t.alt06} width={2000} height={1008} class="shot" />
+      <figcaption class="fig-cap"><span class="n">Fig. 06</span><span>{t.fig06}</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- AUTOMATION (dark) -->
+<section class="sec-lg dark">
+  <div class="wrap-wide cs-block">
+    <div class="grid12 cs-arch-head">
+      <div class="cs-arch-head-l"><p class="sec-label on-dark"><span class="ix">07</span>{t.s7}</p><h2 class="t-h2">{t.autoH}</h2></div>
+      <p class="t-body cs-arch-head-r">{t.autoLead}</p>
+    </div>
+    <figure class="diagram-box">
+      <div class="diagram-head"><span class="dg-title" style="color:#FAF9F7">{t.fbName}</span><span class="anno">{t.fbAnno}</span></div>
+      <div class="dg" style="padding:28px">
+        <div class="dg-flow cs-fb">
+          <div class="dg-node"><h4>{isAr ? 'يربط التاجر فيسبوك' : 'Merchant connects Facebook'}</h4><p>{isAr ? 'يأذن للصفحة؛ تُجلب المنشورات العامة' : 'Authorizes the page; public posts are fetched'}</p></div>
+          <div class="dg-link lab"><span>{isAr ? 'منشورات ووسائط' : 'Posts & media'}</span><span aria-hidden="true"><Fragment set:html={linkArrow} /></span></div>
+          <div class="dg-node focal" style="flex-grow:2.4"><h4>{isAr ? 'مستورد رحاب' : 'Rihab importer'}</h4><p>{isAr ? 'معالجة وفهم واستخلاص بيانات المنتج' : 'Process, understand and extract product information'}</p>
+            <ul class="dg-list"><li>{isAr ? 'استقبال المنشورات' : 'Ingest posts'}</li><li>{isAr ? 'فهم بمساعدة الذكاء الاصطناعي' : 'AI-assisted understanding'}</li><li>{isAr ? 'معالجة الوسائط' : 'Process media'}</li><li>{isAr ? 'مرشّحات منتجات' : 'Product candidates'}</li></ul>
+          </div>
+          <div class="dg-link lab"><span>{isAr ? 'مرشّحات المنتجات' : 'Product candidates'}</span><span aria-hidden="true"><Fragment set:html={linkArrow} /></span></div>
+          <div class="dg-node" style="border-color:#D49AAA"><h4>{isAr ? 'مراجعة التاجر' : 'Merchant review'}</h4><p>{isAr ? 'فحص وتعديل وموافقة — بوابة القرار البشري' : 'Check, edit and approve — the human decision gate'}</p></div>
+          <div class="dg-link" aria-hidden="true"><Fragment set:html={linkArrow} /></div>
+          <div class="dg-node"><h4>{isAr ? 'كتالوج رحاب' : 'Rihab catalog'}</h4><p>{isAr ? 'المنتجات المعتمدة تُنشر في المتجر' : 'Approved products published to the store'}</p></div>
+        </div>
+        <div class="dg-strip">
+          <div class="lead"><b>{fbUnder}</b><span>{fbUnderSub}</span></div>
+          {fbSteps.map((s, i) => (
+            <>
+              <div class="dg-step"><span class="num">{s[0]}</span><div><b>{s[1]}</b><span>{s[2]}</span></div></div>
+              {i < fbSteps.length - 1 && <div class="dg-link n" aria-hidden="true"><Fragment set:html={linkArrow} /></div>}
+            </>
+          ))}
+        </div>
+      </div>
+    </figure>
+    <div class="grid12 cs-media">
+      <figure class="cs-media-fig"><ResponsiveImage basePath="/work/rihab/media-management" alt={t.alt08} width={2000} height={1008} class="shot" /><figcaption class="fig-cap on-dark"><span class="n">Fig. 08</span><span>{t.fig08}</span></figcaption></figure>
+      <div class="cs-media-note"><h3 class="t-h5">{t.failH}</h3><p class="t-sm">{t.failB}</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT -->
+<section class="cs-next">
+  <div class="wrap cs-next-inner">
+    <div class="cs-next-l"><span class="t-cap">{t.nextLabel}</span><a href={L('work/magic-car')} class="t-h3 cs-next-link">{t.nextName}</a></div>
+    <a href={L('contact')} class="btn btn-primary">{t.startCta}</a>
+  </div>
+</section>
+
+<style>
+  .cs-hero { padding-top: 40px; }
+  .cs-hero-inner { display: flex; flex-direction: column; gap: 40px; }
+  .cs-bc { display: flex; gap: 8px; align-items: center; color: var(--muted); }
+  .cs-bc a { color: var(--muted); }
+  .cs-bc [aria-current] { color: var(--text); }
+  .cs-hero-head { align-items: end; row-gap: 32px; }
+  .cs-hero-l { grid-column: 1 / span 7; display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+  .cs-meta { grid-column: 9 / span 4; margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px 20px; font-size: 14px; border-top: 1px solid var(--text); padding-top: 16px; }
+  .cs-meta dd { margin: 0; }
+  .cs-hero-fig { margin-top: 56px; }
+
+  .cs-ctx { row-gap: 48px; }
+  .cs-ctx-label { grid-column: 1 / span 3; }
+  .cs-ctx-cols { grid-column: 4 / span 9; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
+  .cs-ctx-cols > div { display: flex; flex-direction: column; gap: 10px; }
+  .cs-ctx-cols .t-sm { color: var(--n700); }
+
+  .cs-dec-sec { padding-top: 0; }
+  .cs-dec { row-gap: 32px; }
+  .cs-dec-label { grid-column: 1 / span 3; }
+  .cs-dec-list { grid-column: 4 / span 9; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .cs-dec-row { display: grid; grid-template-columns: 48px minmax(0, 1fr) minmax(0, 1.3fr); gap: 24px; padding: 24px 0; border-top: 1px solid var(--border); }
+  .cs-dec-row.first { border-top: 1px solid var(--text); }
+  .cs-dec-row:last-child { border-bottom: 1px solid var(--border); }
+  .cs-dec-id { font-size: 12px; color: var(--burgundy); padding-top: 4px; }
+  .cs-dec-row .t-sm { color: var(--n700); }
+
+  .cs-alt { background: var(--subtle); border-block: 1px solid var(--border); }
+  .cs-topborder { border-top: 1px solid var(--border); }
+  .cs-block { display: flex; flex-direction: column; gap: 40px; }
+  .cs-block-head, .cs-arch-head { padding-inline: 0; align-items: end; }
+  .cs-block-head { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .cs-block-head-l, .cs-arch-head-l { display: flex; flex-direction: column; gap: 14px; }
+  .cs-arch-head { display: grid; grid-template-columns: repeat(12, minmax(0,1fr)); column-gap: 24px; }
+  .cs-arch-head-l { grid-column: 1 / span 6; }
+  .cs-arch-head-r { grid-column: 8 / span 5; }
+  .cs-arch-head2 { margin-top: 8px; }
+
+  .cs-admin-fig :global(.shot), .cs-logi-fig :global(.shot) { width: 100%; }
+  .cs-pair { align-items: start; row-gap: 32px; }
+  .cs-pair-a { grid-column: 1 / span 8; }
+  .cs-pair-b { grid-column: 9 / span 4; margin-top: 120px; }
+
+  .dg-title { font-size: 14px; font-weight: 500; }
+  .cs-otf, .cs-comm, .cs-fb { gap: 0; }
+  .cs-otf .dg-link, .cs-comm .dg-link, .cs-fb .dg-link { flex: 0 0 72px; }
+
+  .cs-media { align-items: center; row-gap: 24px; margin-top: 8px; }
+  .cs-media-fig { grid-column: 1 / span 7; }
+  .cs-media-note { grid-column: 9 / span 4; display: flex; flex-direction: column; gap: 12px; }
+  .cs-media-note .t-h5 { color: #FAF9F7; }
+  .cs-media-note .t-sm { color: #A9ACAF; }
+  .fig-cap.on-dark { color: #A9ACAF; }
+  .fig-cap.on-dark .n { color: #FAF9F7; }
+
+  .cs-next { border-top: 1px solid var(--border); background: var(--surface); }
+  .cs-next-inner { padding-block: 56px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .cs-next-l { display: flex; flex-direction: column; gap: 6px; }
+  .cs-next-link { color: var(--strong); text-decoration: none; }
+  .cs-next-link:hover { color: var(--burgundy); }
+
+  @media (max-width: 900px) {
+    .cs-hero-l, .cs-meta, .cs-ctx-label, .cs-ctx-cols, .cs-dec-label, .cs-dec-list,
+    .cs-arch-head-l, .cs-arch-head-r, .cs-pair-a, .cs-pair-b, .cs-media-fig, .cs-media-note { grid-column: 1 / -1 !important; }
+    .cs-ctx-cols { grid-template-columns: 1fr; gap: 24px; }
+    .cs-dec-row { grid-template-columns: 48px minmax(0,1fr); }
+    .cs-dec-row .t-sm { grid-column: 2; }
+    .cs-pair-b { margin-top: 0; }
+  }
+</style>

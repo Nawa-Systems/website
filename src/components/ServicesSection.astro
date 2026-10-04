@@ -1,126 +1,133 @@
 ---
-import { services } from '../data/site';
-import { getServicesCopy } from '../data/servicesCopy';
+import { getServicesPageCopy } from '../data/servicesPageCopy';
+import ServiceConcept from './services/ServiceConcept.astro';
 import type { Locale } from '../lib/i18n';
 
-interface Props {
-  locale: Locale;
-}
-
+interface Props { locale: Locale }
 const { locale } = Astro.props;
-const copy = getServicesCopy(locale);
+const c = getServicesPageCopy(locale);
+const L = (slug: string) => `/${locale}/${slug}`;
+const arrow = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"></path></svg>`;
 ---
 
-<section class="services-page container">
-  <p class="services-intro">{copy.intro}</p>
+<section class="svc-hero">
+  <div class="wrap svc-hero-inner">
+    <div class="grid12 svc-hero-head">
+      <div class="svc-hero-l">
+        <p class="sec-label">{c.label}</p>
+        <h1 class="t-h1">{c.title}</h1>
+      </div>
+      <p class="t-lead svc-hero-r">{c.lead}</p>
+    </div>
+    <nav class="svc-nav" aria-label={c.navAria}>
+      {c.navLabels.map((n) => (
+        <a href={`#${n.anchor}`} class="svc-nav-item">
+          <span class="mono svc-nav-ix">{n.index}</span>
+          <span class="t-label">{n.label}</span>
+        </a>
+      ))}
+    </nav>
+  </div>
+</section>
 
-  {services.map((service) => {
-    const sc = copy.services[service.slug];
-    const name = locale === 'ar' ? service.nameAr : service.nameEn;
-    return (
-      <article class="service-block" id={service.slug}>
-        <h2>{name}</h2>
-
-        <div class="service-block__grid">
-          <div>
-            <h3>{locale === 'ar' ? 'المشكلة' : 'The problem'}</h3>
-            <p>{sc.problem}</p>
-
-            <h3>{locale === 'ar' ? 'دور نواة' : "Nawa's role"}</h3>
-            <p>{sc.role}</p>
-          </div>
-
-          <div>
-            <h3>{locale === 'ar' ? 'شكل العمل' : 'What the work looks like'}</h3>
-            <ul>
-              {sc.work.map((item) => <li>{item}</li>)}
-            </ul>
-
-            <h3>{locale === 'ar' ? 'المبادئ' : 'Principles'}</h3>
-            <ul>
-              {sc.principles.map((item) => <li>{item}</li>)}
-            </ul>
-          </div>
+{c.services.map((s, i) => (
+  <section id={s.anchor} class:list={['sec', 'svc-block', { alt: i % 2 === 1 }]}>
+    <div class="wrap grid12 svc-block-grid">
+      <div class="svc-block-l">
+        <span class="mono svc-block-ix">{s.index}</span>
+        <h2 class="t-h2">{s.title}</h2>
+        <p class="t-body">{s.lead}</p>
+        <ServiceConcept concept={s.concept} locale={locale} />
+      </div>
+      <div class="svc-block-r">
+        <div class="svc-sub">
+          <h3 class="t-h5">{c.whatWeBuild}</h3>
+          <ul class="svc-list">{s.build.map((b) => <li set:html={b} />)}</ul>
         </div>
+        <div class="svc-sub bordered">
+          <h3 class="t-h5">{c.howWeApproach}</h3>
+          <p class="t-body">{s.approach}</p>
+        </div>
+        <div class="svc-evidence bordered">
+          <span class="t-cap">{c.evidenceLabel}</span>
+          <a href={L(s.evidenceHref)} class="link-t">{s.evidenceText} <Fragment set:html={arrow} /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+))}
 
-        <p class="service-block__relation">{sc.relation}</p>
-      </article>
-    );
-  })}
+<section class="sec-lg svc-start">
+  <div class="wrap grid12 svc-start-grid">
+    <div class="svc-start-l">
+      <p class="sec-label">{c.startLabel}</p>
+      <h2 class="t-h2">{c.startTitle}</h2>
+    </div>
+    <ol class="svc-start-steps">
+      {c.start.map((st, i) => (
+        <li class:list={['svc-start-step', { first: i === 0 }]}>
+          <span class="mono svc-start-key" style={i === 0 ? 'color:#6E263C' : 'color:#64686E'}>{st.key}</span>
+          <h3 class="t-h5">{st.title}</h3>
+          <p class="t-sm">{st.body}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
 
-  <p class="services-cross">{copy.crossService}</p>
+<section class="dark svc-cta">
+  <svg class="svc-cta-blade" viewBox="0 0 360 780" width="360" aria-hidden="true"><path d="M9.9 6.7L302 203.8Q360 243 360 313L360 751Q360 763 350.1 756.3L58 559.2Q0 520 0 450L0 12Q0 0 9.9 6.7Z" fill="none" stroke="#FFFFFF" stroke-opacity=".1"></path></svg>
+  <div class="wrap svc-cta-inner">
+    <h2 class="t-h2">{c.ctaTitle}</h2>
+    <p class="t-lead">{c.ctaLead}</p>
+    <div class="svc-cta-ctas">
+      <a href={L('contact')} class="btn btn-on-dark btn-lg">{c.ctaPrimary}</a>
+      <a href={L('work')} class="btn btn-dark-secondary btn-lg">{c.ctaSecondary}</a>
+    </div>
+  </div>
 </section>
 
 <style>
-  .services-page {
-    padding-block: var(--space-7);
-  }
+  .svc-hero { border-bottom: 1px solid var(--border); }
+  .svc-hero-inner { padding-top: 80px; padding-bottom: 56px; display: flex; flex-direction: column; gap: 56px; }
+  .svc-hero-head { align-items: end; row-gap: 24px; }
+  .svc-hero-l { grid-column: 1 / span 7; display: flex; flex-direction: column; gap: 20px; }
+  .svc-hero-r { grid-column: 9 / span 4; }
+  .svc-nav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--text); }
+  .svc-nav-item { display: flex; flex-direction: column; gap: 6px; padding: 16px 16px 0 0; color: var(--text); text-decoration: none; }
+  [dir=rtl] .svc-nav-item { padding: 16px 0 0 16px; }
+  .svc-nav-ix { font-size: 12px; color: var(--burgundy); }
+  .svc-nav-item:hover .t-label { color: var(--burgundy); }
 
-  .services-intro {
-    max-width: var(--max-width-prose);
-    font-size: var(--text-lg);
-    color: var(--color-secondary-text);
-    margin-bottom: var(--space-7);
-  }
+  .svc-block.alt { background: var(--subtle); border-block: 1px solid var(--border); }
+  .svc-block-grid { row-gap: 40px; }
+  .svc-block-l { grid-column: 1 / span 4; display: flex; flex-direction: column; gap: 18px; }
+  .svc-block-ix { font-size: 12px; color: var(--burgundy); }
+  .svc-block-r { grid-column: 6 / span 7; display: flex; flex-direction: column; gap: 32px; }
+  .svc-sub { display: flex; flex-direction: column; gap: 14px; }
+  .bordered { border-top: 1px solid var(--border); padding-top: 24px; }
+  .svc-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 24px; font-size: 15px; color: var(--n700); }
+  .svc-list li { display: flex; gap: 10px; align-items: baseline; }
+  .svc-list li::before { content: ""; width: 6px; height: 10px; flex: none; background: var(--text); clip-path: polygon(0 0, 100% 38.6%, 100% 100%, 0 61.4%); transform: translateY(1px); }
+  .svc-evidence { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
 
-  .service-block {
-    padding-block: var(--space-6);
-    border-top: 1px solid var(--color-border);
-  }
+  .svc-start-grid { row-gap: 40px; }
+  .svc-start-l { grid-column: 1 / span 4; display: flex; flex-direction: column; gap: 16px; }
+  .svc-start-steps { grid-column: 6 / span 7; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .svc-start-step { border-top: 1px solid var(--border); padding-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .svc-start-step.first { border-top: 1px solid var(--text); }
+  .svc-start-key { font-size: 12px; }
 
-  .service-block h2 {
-    font-size: var(--text-2xl);
-    color: var(--color-burgundy);
-    margin-bottom: var(--space-4);
-  }
+  .svc-cta { position: relative; overflow: hidden; }
+  .svc-cta-blade { position: absolute; inset-inline-end: 60px; top: -60px; }
+  .svc-cta-inner { padding-block: 96px; display: flex; flex-direction: column; gap: 24px; position: relative; }
+  .svc-cta-inner .t-h2, .svc-cta-inner .t-lead { max-width: 36rem; }
+  .svc-cta-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
 
-  .service-block__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-5);
-  }
-
-  .service-block h3 {
-    font-size: var(--text-sm);
-    text-transform: var(--label-transform);
-    letter-spacing: var(--label-tracking);
-    color: var(--color-secondary-text);
-    font-weight: var(--weight-semibold);
-    margin-bottom: var(--space-1);
-  }
-
-  .service-block p,
-  .service-block ul {
-    margin-bottom: var(--space-4);
-  }
-
-  .service-block ul {
-    padding-inline-start: 1.2em;
-  }
-
-  .service-block li {
-    margin-bottom: var(--space-1);
-  }
-
-  .service-block__relation {
-    margin-top: var(--space-3);
-    padding-top: var(--space-3);
-    border-top: 1px dashed var(--color-border);
-    color: var(--color-secondary-text);
-    font-size: var(--text-sm);
-  }
-
-  .services-cross {
-    margin-top: var(--space-6);
-    padding: var(--space-4);
-    background: var(--color-burgundy-soft);
-    border-radius: var(--radius-md);
-    max-width: var(--max-width-prose);
-  }
-
-  @media (max-width: 780px) {
-    .service-block__grid {
-      grid-template-columns: 1fr;
-    }
+  @media (max-width: 760px) {
+    .svc-nav { grid-template-columns: 1fr 1fr; gap: 8px 0; }
+    .svc-list { grid-template-columns: 1fr; }
+    .svc-start-steps { grid-template-columns: 1fr; }
+    .svc-cta-ctas .btn { width: 100%; }
   }
 </style>

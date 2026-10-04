@@ -2,10 +2,9 @@
 import Base from '../../layouts/Base.astro';
 import LegalPage from '../../components/LegalPage.astro';
 import { getLegalCopy } from '../../data/legalCopy';
-
 const copy = getLegalCopy('en');
 ---
 
 <Base locale="en" title={`${copy.privacyTitle} — Nawa`} description={copy.privacyIntro} path="/en/privacy">
-  <LegalPage title={copy.privacyTitle} intro={copy.privacyIntro} sections={copy.privacySections} />
+  <LegalPage locale="en" which="privacy" title={copy.privacyTitle} intro={copy.privacyIntro} sections={copy.privacySections} />
 </Base>

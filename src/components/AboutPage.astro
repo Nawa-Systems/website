@@ -1,0 +1,166 @@
+---
+import { getAboutPageCopy } from '../data/aboutPageCopy';
+import ResponsiveImage from './ResponsiveImage.astro';
+import type { Locale } from '../lib/i18n';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = getAboutPageCopy(locale);
+const L = (slug: string) => `/${locale}/${slug}`;
+const modelProduct = c.modelProduct.replace('RIHAB', L('work/rihab'));
+const modelClient = c.modelClient.replace('MAGICCAR', L('work/magic-car'));
+---
+
+<!-- HERO: line-only mark cropped by the section edge -->
+<section class="ab-hero">
+  <svg class="ab-hero-mark" viewBox="190 155 874 952" width="760" aria-hidden="true">
+    <path fill="none" stroke="#D1D3D2" stroke-width="2" d="M281 450C274 450 269 457 269 466L269 771C269 811 292 841 329 869L536 1010C547 1017 561 1009 561 996L561 689C561 651 544 620 510 592L302 453C295 448 288 447 281 450Z"></path>
+    <path fill="none" stroke="#D1D3D2" stroke-width="2" d="M594 349L894 558C948 596 984 649 984 705L984 1007C984 1020 974 1028 961 1028C955 1028 949 1026 944 1023L775 912C750 896 736 873 736 848L736 753C736 714 719 685 689 661L635 625C608 607 594 585 594 556Z"></path>
+    <circle fill="#6E263C" cx="875" cy="343" r="109"></circle>
+  </svg>
+  <div class="wrap grid12 ab-hero-inner">
+    <div class="ab-hero-text">
+      <p class="sec-label">{c.label}</p>
+      <h1 class="t-display">{c.heroTitle}</h1>
+      <p class="t-lead">{c.heroLead}</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="sec">
+  <div class="wrap grid12 ab-row">
+    <div class="ab-row-l">
+      <p class="sec-label"><span class="ix">01</span>{c.whyLabel}</p>
+      <h2 class="t-h2">{c.whyTitle}</h2>
+    </div>
+    <div class="ab-why">
+      {c.why.map((w, i) => (
+        <div class:list={['ab-why-item', { first: i === 0 }]}>
+          <h3 class="t-h5">{w.title}</h3>
+          <p class="t-sm">{w.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="sec-lg ab-values">
+  <div class="wrap grid12 ab-values-grid">
+    <div class="ab-values-l">
+      <p class="sec-label"><span class="ix">02</span>{c.valuesLabel}</p>
+      <h2 class="t-h2">{c.valuesTitle}</h2>
+      <p class="t-body">{c.valuesBody}</p>
+    </div>
+    <dl class="ab-values-list">
+      {c.values.map((v, i) => (
+        <div class:list={['ab-value-row', { first: i === 0 }]}>
+          <dt class="t-h5">{v.name}</dt>
+          <dd class="t-sm">{v.meaning}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<!-- MODEL -->
+<section class="sec">
+  <div class="wrap grid12 ab-row">
+    <div class="ab-row-l">
+      <p class="sec-label"><span class="ix">03</span>{c.modelLabel}</p>
+      <h2 class="t-h2">{c.modelTitle}</h2>
+    </div>
+    <div class="ab-model">
+      <div class="card ab-model-card">
+        <span class="tag-own tag-product">{c.modelProductTag}</span>
+        <p class="t-body" set:html={modelProduct} />
+      </div>
+      <div class="card ab-model-card">
+        <span class="tag-own tag-client">{c.modelClientTag}</span>
+        <p class="t-body" set:html={modelClient} />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section class="sec-lg ab-founder" aria-labelledby="founder-h">
+  <div class="wrap grid12 ab-founder-grid">
+    <figure class="ab-founder-fig">
+      <div class="ab-founder-frame" aria-hidden="true"></div>
+      <div class="ab-founder-photo">
+        <ResponsiveImage basePath="/founder/founder" alt={c.founderCaption} width={720} height={900} />
+      </div>
+      <div class="ab-founder-nucleus" aria-hidden="true"></div>
+    </figure>
+    <div class="ab-founder-body">
+      <p class="sec-label"><span class="ix">04</span>{c.founderLabel}</p>
+      <h2 id="founder-h" class="t-h2">{c.founderTitle}</h2>
+      <p class="t-body">{c.founderBody}</p>
+      <div class="ab-founder-role"><span class="t-sm">{c.founderRole}</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="dark ab-cta">
+  <div class="wrap ab-cta-inner">
+    <h2 class="t-h3">{c.ctaTitle}</h2>
+    <div class="ab-cta-ctas">
+      <a href={L('contact')} class="btn btn-on-dark btn-lg">{c.ctaPrimary}</a>
+      <a href={L('work')} class="btn btn-dark-secondary btn-lg">{c.ctaSecondary}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ab-hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--border); min-height: 560px; }
+  .ab-hero-mark { position: absolute; inset-inline-end: -120px; top: -40px; }
+  .ab-hero-inner { padding-top: 120px; padding-bottom: 120px; position: relative; }
+  .ab-hero-text { grid-column: 1 / span 6; display: flex; flex-direction: column; gap: 24px; }
+
+  .ab-row { row-gap: 40px; }
+  .ab-row-l { grid-column: 1 / span 4; display: flex; flex-direction: column; gap: 16px; }
+  .ab-why { grid-column: 6 / span 7; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+  .ab-why-item { border-top: 1px solid var(--border); padding-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .ab-why-item.first { border-top: 1px solid var(--text); }
+  .ab-why-item .t-sm { color: var(--n700); }
+
+  .ab-values { background: var(--subtle); border-block: 1px solid var(--border); }
+  .ab-values-grid { row-gap: 48px; }
+  .ab-values-l { grid-column: 1 / span 5; display: flex; flex-direction: column; gap: 16px; }
+  .ab-values-list { grid-column: 7 / span 6; margin: 0; display: flex; flex-direction: column; }
+  .ab-value-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 24px; padding: 20px 0; border-top: 1px solid var(--border); }
+  .ab-value-row.first { border-top: 1px solid var(--text); }
+  .ab-value-row:last-child { border-bottom: 1px solid var(--border); }
+  .ab-value-row dd { margin: 0; color: var(--n700); }
+
+  .ab-model { grid-column: 6 / span 7; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .ab-model-card { padding: 28px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+
+  .ab-founder { border-top: 1px solid var(--border); position: relative; overflow: hidden; }
+  .ab-founder-grid { align-items: center; row-gap: 48px; }
+  .ab-founder-fig { grid-column: 1 / span 5; position: relative; margin: 0; }
+  .ab-founder-frame { position: absolute; inset-inline-start: -24px; top: 24px; width: 100%; height: 100%; border: 1px solid var(--border-strong); border-radius: 14px; }
+  .ab-founder-photo { position: relative; border-radius: 14px; border-start-end-radius: 64px; overflow: hidden; border: 1px solid var(--border); }
+  .ab-founder-photo :global(img) { display: block; width: 100%; height: auto; }
+  .ab-founder-nucleus { position: absolute; inset-inline-end: -14px; top: -14px; width: 28px; height: 28px; border-radius: 50%; background: var(--burgundy); }
+  .ab-founder-body { grid-column: 7 / span 6; display: flex; flex-direction: column; gap: 22px; }
+  .ab-founder-role { border-top: 1px solid var(--text); padding-top: 16px; }
+
+  .ab-cta-inner { padding-block: 88px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .ab-cta-inner .t-h3 { max-width: 32rem; }
+  .ab-cta-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  @media (max-width: 900px) {
+    .ab-hero-inner { padding-top: 72px; padding-bottom: 72px; }
+    .ab-hero-text { grid-column: 1 / -1; }
+    .ab-why { grid-template-columns: 1fr; gap: 0; }
+    .ab-why-item { padding: 16px 0; }
+    .ab-value-row { grid-template-columns: 1fr; gap: 6px; }
+    .ab-model { grid-template-columns: 1fr; }
+    .ab-founder-fig { max-width: 420px; }
+    .ab-cta-ctas .btn { flex: 1; min-width: 160px; }
+  }
+</style>

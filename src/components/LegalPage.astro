@@ -1,47 +1,69 @@
 ---
+import { t, type Locale } from '../lib/i18n';
+
 interface Props {
+  locale: Locale;
+  which: 'privacy' | 'terms';
   title: string;
   intro: string;
   sections: { heading: string; body: string }[];
 }
-
-const { title, intro, sections } = Astro.props;
+const { locale, which, title, intro, sections } = Astro.props;
+const s = t(locale);
+const privacyHref = `/${locale}/privacy`;
+const termsHref = `/${locale}/terms`;
 ---
 
-<div class="container legal-page">
-  <header class="page-header">
-    <h1>{title}</h1>
-    <p>{intro}</p>
-  </header>
-  {sections.map((s) => (
-    <section class="legal-block">
-      <h2>{s.heading}</h2>
-      <p>{s.body}</p>
-    </section>
-  ))}
-</div>
+<section class="lg-hero">
+  <div class="wrap lg-hero-inner">
+    <nav class="lg-tabs" aria-label={locale === 'ar' ? 'المستندات القانونية' : 'Legal documents'}>
+      <a href={privacyHref} class:list={['nav-link', { 'is-active': which === 'privacy' }]} aria-current={which === 'privacy' ? 'page' : undefined}>{s.privacy}</a>
+      <a href={termsHref} class:list={['nav-link', { 'is-active': which === 'terms' }]} aria-current={which === 'terms' ? 'page' : undefined}>{s.terms}</a>
+    </nav>
+    <h1 class="t-h1">{title}</h1>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap grid12 lg-grid">
+    <nav class="lg-toc" aria-label={locale === 'ar' ? 'في هذه الصفحة' : 'On this page'}>
+      {sections.map((sec, i) => (
+        <a href={`#sec-${i + 1}`} class:list={[{ on: i === 0 }]}>{sec.heading}</a>
+      ))}
+    </nav>
+    <article class="lg-prose">
+      <p class="lg-lead">{intro}</p>
+      {sections.map((sec, i) => (
+        <>
+          <h2 id={`sec-${i + 1}`}><span class="mono">{String(i + 1).padStart(2, '0')}</span>{sec.heading}</h2>
+          <p>{sec.body}</p>
+        </>
+      ))}
+    </article>
+  </div>
+</section>
 
 <style>
-  .legal-page {
-    padding-block: var(--space-6) var(--space-8);
-    max-width: var(--max-width-prose);
-  }
-  .page-header {
-    margin-bottom: var(--space-5);
-  }
-  .page-header p {
-    color: var(--color-secondary-text);
-  }
-  .legal-block {
-    border-top: 1px solid var(--color-border);
-    padding-block: var(--space-4);
-  }
-  .legal-block h2 {
-    font-size: var(--text-lg);
-    margin-bottom: var(--space-2);
-  }
-  .legal-block p {
-    color: var(--color-secondary-text);
-    margin: 0;
+  .lg-hero { border-bottom: 1px solid var(--border); }
+  .lg-hero-inner { padding-top: 72px; padding-bottom: 40px; display: flex; flex-direction: column; gap: 24px; }
+  .lg-tabs { display: flex; gap: 28px; }
+
+  .lg-grid { row-gap: 32px; }
+  .lg-toc { grid-column: 1 / span 3; align-self: start; position: sticky; top: 96px; display: flex; flex-direction: column; gap: 4px; }
+  .lg-toc a { font-size: 14px; color: var(--muted); text-decoration: none; padding: 6px 0; border-inline-start: 2px solid transparent; padding-inline-start: 12px; }
+  .lg-toc a:hover { color: var(--strong); }
+  .lg-toc a.on { color: var(--strong); border-inline-start-color: var(--burgundy); }
+
+  .lg-prose { grid-column: 5 / span 7; max-width: 42rem; }
+  .lg-lead { font-size: 19px; line-height: 1.7; color: var(--text); margin: 0 0 8px; }
+  .ar .lg-lead { line-height: 1.9; }
+  .lg-prose h2 { display: flex; gap: 14px; align-items: baseline; font-size: 20px; font-weight: 600; color: var(--strong); margin: 40px 0 12px; }
+  .lg-prose h2 .mono { font-size: 12px; color: var(--burgundy); }
+  .lg-prose p { font-size: 16px; line-height: 1.75; color: var(--n700); margin: 0; }
+  .ar .lg-prose p { line-height: 1.9; }
+
+  @media (max-width: 900px) {
+    .lg-toc { display: none; }
+    .lg-prose { grid-column: 1 / -1; }
   }
 </style>

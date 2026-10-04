@@ -1,0 +1,170 @@
+---
+// Simplified external architecture for Magic Car: ERP stays authoritative,
+// Nawa's integration layer keeps a last-known-good catalog and validates orders
+// live. Full detail on a wide SVG (scrolls if needed); stacked on small screens
+// so no semantic information is cropped. Coordinates hand-mirrored for RTL.
+import { getHomeCopy } from '../../data/homeCopy';
+import type { Locale } from '../../lib/i18n';
+const { locale } = Astro.props as { locale: Locale };
+const isAr = locale === 'ar';
+const c = getHomeCopy(locale);
+const ariaLabel = isAr
+  ? 'معمارية Magic Car: يبقى نظام ERP المرجع المعتمد، وتزامن طبقة التكامل كتالوجًا موثوقًا وتتحقق من الطلبات لحظيًا، ويخدم تطبيق Flutter التجّار.'
+  : 'Magic Car architecture: the ERP stays authoritative; Nawa’s integration layer syncs a last-known-good catalog and validates orders live; the Flutter client serves traders.';
+---
+<figure class="diagram-box arch" data-motion="focal path (burgundy) traces after neutral structure settles">
+  <div class="diagram-head">
+    <span class="arch-title">{c.noteDiagramTitle}</span>
+    <span class="anno">external diagram · v1</span>
+  </div>
+
+  <div class="arch-desk">
+    {isAr ? (
+      <svg viewBox="0 0 1120 460" width="100%" style="display:block;min-width:880px" role="img" aria-label={ariaLabel}>
+        <defs>
+          <marker id="ahr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#7A7F85"></path></marker>
+          <marker id="ahfr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#D49AAA"></path></marker>
+        </defs>
+        <rect x="820" y="24" width="276" height="412" rx="14" fill="#FFFFFF" fill-opacity=".03" stroke="#FFFFFF" stroke-opacity=".12"></rect>
+        <text direction="rtl" x="1076" y="52" fill="#A9ACAF" font-size="12" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">النظام القائم</text>
+        <rect x="344" y="24" width="452" height="412" rx="14" fill="#FFFFFF" fill-opacity=".03" stroke="#FFFFFF" stroke-opacity=".12"></rect>
+        <text direction="rtl" x="776" y="52" fill="#A9ACAF" font-size="12" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">طبقة التكامل من نواة</text>
+        <rect x="24" y="24" width="296" height="412" rx="14" fill="#FFFFFF" fill-opacity=".03" stroke="#FFFFFF" stroke-opacity=".12"></rect>
+        <text direction="rtl" x="300" y="52" fill="#A9ACAF" font-size="12" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">تجربة التاجر</text>
+        <path d="M850 128 L750 128" fill="none" stroke="#7A7F85" stroke-width="1.25" marker-end="url(#ahr)"></path>
+        <text direction="rtl" x="800" y="118" fill="#A9ACAF" font-size="11" text-anchor="middle" style="font-family:'IBM Plex Sans Arabic',sans-serif">مزامنة</text>
+        <path d="M580 128 L540 128" fill="none" stroke="#7A7F85" stroke-width="1.25" marker-end="url(#ahr)"></path>
+        <path d="M370 128 L280 128" fill="none" stroke="#7A7F85" stroke-width="1.25" marker-end="url(#ahr)"></path>
+        <text direction="rtl" x="325" y="118" fill="#A9ACAF" font-size="11" text-anchor="middle" style="font-family:'IBM Plex Sans Arabic',sans-serif">قراءة الكتالوج</text>
+        <path d="M280 212 L360 212" fill="none" stroke="#D49AAA" stroke-width="1.75" marker-end="url(#ahfr)"></path>
+        <text direction="rtl" x="320" y="202" fill="#D49AAA" font-size="11" text-anchor="middle" style="font-family:'IBM Plex Sans Arabic',sans-serif">إرسال الطلب</text>
+        <path d="M530 212 L590 212 L590 190 L840 190" fill="none" stroke="#D49AAA" stroke-width="1.75" marker-end="url(#ahfr)"></path>
+        <text direction="rtl" x="715" y="180" fill="#D49AAA" font-size="11" text-anchor="middle" style="font-family:'IBM Plex Sans Arabic',sans-serif">تحقّق لحظي</text>
+        <path d="M750 310 L850 310 L850 222" fill="none" stroke="#7A7F85" stroke-width="1.25" stroke-dasharray="4 4" marker-end="url(#ahr)"></path>
+        <text direction="rtl" x="800" y="300" fill="#A9ACAF" font-size="11" text-anchor="middle" style="font-family:'IBM Plex Sans Arabic',sans-serif">إجراءات الإدارة</text>
+        <path d="M640 384 L610 384" fill="none" stroke="#7A7F85" stroke-width="1.25" marker-end="url(#ahr)"></path>
+        <path d="M470 384 L440 384" fill="none" stroke="#7A7F85" stroke-width="1.25" marker-end="url(#ahr)"></path>
+        <path d="M300 384 L170 384 L170 236" fill="none" stroke="#7A7F85" stroke-width="1.25" marker-end="url(#ahr)"></path>
+        <rect x="850" y="96" width="222" height="126" rx="10" fill="#2A2C2F" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1" stroke-dasharray="5 4"></rect>
+        <text direction="rtl" x="1056" y="124" fill="#FAF9F7" font-size="14" font-weight="500" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">ERP</text>
+        <text direction="rtl" x="1056" y="144" fill="#A9ACAF" font-size="12" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">المرجع المعتمد للمنتجات</text>
+        <text direction="rtl" x="1056" y="161" fill="#A9ACAF" font-size="12" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">والأسعار والحسابات والطلبات</text>
+        <text direction="rtl" x="1056" y="178" fill="#A9ACAF" font-size="12" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">يبقى في مكانه</text>
+        <rect x="580" y="96" width="170" height="64" rx="10" fill="#2A2C2F" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1"></rect>
+        <text direction="rtl" x="734" y="124" fill="#FAF9F7" font-size="14" font-weight="500" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">مزامنة الكتالوج</text>
+        <rect x="370" y="96" width="170" height="64" rx="10" fill="#2A2C2F" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1"></rect>
+        <text direction="rtl" x="524" y="124" fill="#FAF9F7" font-size="14" font-weight="500" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">آخر نسخة سليمة</text>
+        <text direction="rtl" x="524" y="144" fill="#A9ACAF" font-size="12" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">من الكتالوج</text>
+        <rect x="370" y="180" width="160" height="64" rx="10" fill="#2A2C2F" stroke="#D49AAA" stroke-opacity="1" stroke-width="1.5"></rect>
+        <text direction="rtl" x="514" y="208" fill="#FAF9F7" font-size="14" font-weight="500" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">تحقّق لحظي</text>
+        <text direction="rtl" x="514" y="228" fill="#A9ACAF" font-size="12" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">بعد مراجعة الإدارة</text>
+        <rect x="370" y="280" width="380" height="60" rx="10" fill="#2A2C2F" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1"></rect>
+        <text direction="rtl" x="734" y="308" fill="#FAF9F7" font-size="14" font-weight="500" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">الإدارة · الحملات · الحسابات</text>
+        <text direction="rtl" x="734" y="328" fill="#A9ACAF" font-size="12" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">مسارات تشغيلية حول نظام ERP</text>
+        <rect x="48" y="96" width="232" height="140" rx="10" fill="#2A2C2F" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1"></rect>
+        <text direction="rtl" x="264" y="124" fill="#FAF9F7" font-size="14" font-weight="500" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">تطبيق Flutter</text>
+        <text direction="rtl" x="264" y="144" fill="#A9ACAF" font-size="12" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">Web · iOS · Android</text>
+        <text direction="rtl" x="264" y="161" fill="#A9ACAF" font-size="12" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">الكتالوج · السلة · الطلبات</text>
+        <text direction="rtl" x="264" y="178" fill="#A9ACAF" font-size="12" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">مسارات الحساب</text>
+        <rect x="640" y="360" width="140" height="48" rx="10" fill="#2A2C2F" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1"></rect>
+        <text x="656" y="388" fill="#FAF9F7" font-size="14" font-weight="500" style="font-family:'IBM Plex Mono',monospace">S3</text>
+        <rect x="470" y="360" width="140" height="48" rx="10" fill="#2A2C2F" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1"></rect>
+        <text x="486" y="388" fill="#FAF9F7" font-size="14" font-weight="500" style="font-family:'IBM Plex Mono',monospace">Lambda</text>
+        <rect x="300" y="360" width="140" height="48" rx="10" fill="#2A2C2F" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1"></rect>
+        <text x="316" y="388" fill="#FAF9F7" font-size="14" font-weight="500" style="font-family:'IBM Plex Mono',monospace">CloudFront</text>
+        <text direction="rtl" x="780" y="352" fill="#A9ACAF" font-size="11" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">مسار معالجة الوسائط</text>
+      </svg>
+    ) : (
+      <svg viewBox="0 0 1120 460" width="100%" style="display:block;min-width:880px" role="img" aria-label={ariaLabel}>
+        <defs>
+          <marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#7A7F85"></path></marker>
+          <marker id="ahf" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#D49AAA"></path></marker>
+        </defs>
+        <rect x="24" y="24" width="276" height="412" rx="14" fill="#FFFFFF" fill-opacity=".03" stroke="#FFFFFF" stroke-opacity=".12"></rect>
+        <text x="44" y="52" fill="#A9ACAF" font-size="12" style="font-family:'IBM Plex Sans',sans-serif">Existing business system</text>
+        <rect x="324" y="24" width="452" height="412" rx="14" fill="#FFFFFF" fill-opacity=".03" stroke="#FFFFFF" stroke-opacity=".12"></rect>
+        <text x="344" y="52" fill="#A9ACAF" font-size="12" style="font-family:'IBM Plex Sans',sans-serif">Nawa integration layer</text>
+        <rect x="800" y="24" width="296" height="412" rx="14" fill="#FFFFFF" fill-opacity=".03" stroke="#FFFFFF" stroke-opacity=".12"></rect>
+        <text x="820" y="52" fill="#A9ACAF" font-size="12" style="font-family:'IBM Plex Sans',sans-serif">Trader experience</text>
+        <path d="M270 128 L370 128" fill="none" stroke="#7A7F85" stroke-width="1.25" marker-end="url(#ah)"></path>
+        <text x="320" y="118" fill="#A9ACAF" font-size="11" text-anchor="middle" style="font-family:'IBM Plex Sans',sans-serif">sync</text>
+        <path d="M540 128 L580 128" fill="none" stroke="#7A7F85" stroke-width="1.25" marker-end="url(#ah)"></path>
+        <path d="M750 128 L840 128" fill="none" stroke="#7A7F85" stroke-width="1.25" marker-end="url(#ah)"></path>
+        <text x="795" y="118" fill="#A9ACAF" font-size="11" text-anchor="middle" style="font-family:'IBM Plex Sans',sans-serif">catalog reads</text>
+        <path d="M840 212 L760 212" fill="none" stroke="#D49AAA" stroke-width="1.75" marker-end="url(#ahf)"></path>
+        <text x="800" y="202" fill="#D49AAA" font-size="11" text-anchor="middle" style="font-family:'IBM Plex Sans',sans-serif">place order</text>
+        <path d="M590 212 L530 212 L530 190 L280 190" fill="none" stroke="#D49AAA" stroke-width="1.75" marker-end="url(#ahf)"></path>
+        <text x="405" y="180" fill="#D49AAA" font-size="11" text-anchor="middle" style="font-family:'IBM Plex Sans',sans-serif">live validation</text>
+        <path d="M370 310 L270 310 L270 222" fill="none" stroke="#7A7F85" stroke-width="1.25" stroke-dasharray="4 4" marker-end="url(#ah)"></path>
+        <text x="320" y="300" fill="#A9ACAF" font-size="11" text-anchor="middle" style="font-family:'IBM Plex Sans',sans-serif">admin actions</text>
+        <path d="M480 384 L510 384" fill="none" stroke="#7A7F85" stroke-width="1.25" marker-end="url(#ah)"></path>
+        <path d="M650 384 L680 384" fill="none" stroke="#7A7F85" stroke-width="1.25" marker-end="url(#ah)"></path>
+        <path d="M820 384 L950 384 L950 236" fill="none" stroke="#7A7F85" stroke-width="1.25" marker-end="url(#ah)"></path>
+        <rect x="48" y="96" width="222" height="126" rx="10" fill="#2A2C2F" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1" stroke-dasharray="5 4"></rect>
+        <text x="64" y="124" fill="#FAF9F7" font-size="14" font-weight="500" style="font-family:'IBM Plex Sans',sans-serif">ERP</text>
+        <text x="64" y="144" fill="#A9ACAF" font-size="12" style="font-family:'IBM Plex Sans',sans-serif">Authoritative for products,</text>
+        <text x="64" y="161" fill="#A9ACAF" font-size="12" style="font-family:'IBM Plex Sans',sans-serif">prices, accounts and orders</text>
+        <text x="64" y="178" fill="#A9ACAF" font-size="12" style="font-family:'IBM Plex Sans',sans-serif">Remains in place</text>
+        <rect x="370" y="96" width="170" height="64" rx="10" fill="#2A2C2F" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1"></rect>
+        <text x="386" y="124" fill="#FAF9F7" font-size="14" font-weight="500" style="font-family:'IBM Plex Sans',sans-serif">Catalog sync</text>
+        <rect x="580" y="96" width="170" height="64" rx="10" fill="#2A2C2F" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1"></rect>
+        <text x="596" y="124" fill="#FAF9F7" font-size="14" font-weight="500" style="font-family:'IBM Plex Sans',sans-serif">Last-known-good</text>
+        <text x="596" y="144" fill="#A9ACAF" font-size="12" style="font-family:'IBM Plex Sans',sans-serif">catalog cache</text>
+        <rect x="590" y="180" width="160" height="64" rx="10" fill="#2A2C2F" stroke="#D49AAA" stroke-width="1.5"></rect>
+        <text x="606" y="208" fill="#FAF9F7" font-size="14" font-weight="500" style="font-family:'IBM Plex Sans',sans-serif">Live validation</text>
+        <text x="606" y="228" fill="#A9ACAF" font-size="12" style="font-family:'IBM Plex Sans',sans-serif">after admin review</text>
+        <rect x="370" y="280" width="380" height="60" rx="10" fill="#2A2C2F" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1"></rect>
+        <text x="386" y="308" fill="#FAF9F7" font-size="14" font-weight="500" style="font-family:'IBM Plex Sans',sans-serif">Admin · campaigns · accounts</text>
+        <text x="386" y="328" fill="#A9ACAF" font-size="12" style="font-family:'IBM Plex Sans',sans-serif">Operational workflows around the ERP</text>
+        <rect x="840" y="96" width="232" height="140" rx="10" fill="#2A2C2F" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1"></rect>
+        <text x="856" y="124" fill="#FAF9F7" font-size="14" font-weight="500" style="font-family:'IBM Plex Sans',sans-serif">Flutter client</text>
+        <text x="856" y="144" fill="#A9ACAF" font-size="12" style="font-family:'IBM Plex Sans',sans-serif">Web · iOS · Android</text>
+        <text x="856" y="161" fill="#A9ACAF" font-size="12" style="font-family:'IBM Plex Sans',sans-serif">Catalog · cart · orders</text>
+        <text x="856" y="178" fill="#A9ACAF" font-size="12" style="font-family:'IBM Plex Sans',sans-serif">Account workflows</text>
+        <rect x="340" y="360" width="140" height="48" rx="10" fill="#2A2C2F" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1"></rect>
+        <text x="356" y="388" fill="#FAF9F7" font-size="14" font-weight="500" style="font-family:'IBM Plex Mono',monospace">S3</text>
+        <rect x="510" y="360" width="140" height="48" rx="10" fill="#2A2C2F" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1"></rect>
+        <text x="526" y="388" fill="#FAF9F7" font-size="14" font-weight="500" style="font-family:'IBM Plex Mono',monospace">Lambda</text>
+        <rect x="680" y="360" width="140" height="48" rx="10" fill="#2A2C2F" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1"></rect>
+        <text x="696" y="388" fill="#FAF9F7" font-size="14" font-weight="500" style="font-family:'IBM Plex Mono',monospace">CloudFront</text>
+        <text x="340" y="352" fill="#A9ACAF" font-size="11" style="font-family:'IBM Plex Sans',sans-serif">Media pipeline</text>
+      </svg>
+    )}
+  </div>
+
+  <div class="arch-mob">
+    <span class="t-cap zone">{isAr ? 'النظام القائم' : 'Existing business system'}</span>
+    <div class="arch-box dashed"><b>ERP</b><div class="t-cap">{isAr ? 'المرجع المعتمد للمنتجات والأسعار والحسابات' : 'Authoritative for products, prices, accounts'}</div></div>
+    <div class="arch-conn focal"><span></span><span class="t-cap">{isAr ? 'تحقّق لحظي ↑ · مزامنة ↓' : 'live validation ↑ · sync ↓'}</span></div>
+    <span class="t-cap zone">{isAr ? 'طبقة التكامل من نواة' : 'Nawa integration layer'}</span>
+    <div class="arch-pair">
+      <div class="arch-box">{isAr ? 'آخر نسخة سليمة من الكتالوج' : 'Last-known-good catalog'}</div>
+      <div class="arch-box focal">{isAr ? 'مراجعة الإدارة + تحقّق لحظي' : 'Admin review + live validation'}</div>
+    </div>
+    <div class="arch-conn"><span></span><span class="t-cap">{isAr ? 'قراءة الكتالوج · إرسال الطلب' : 'catalog reads · place order'}</span></div>
+    <span class="t-cap zone">{isAr ? 'تجربة التاجر' : 'Trader experience'}</span>
+    <div class="arch-box"><b>{isAr ? 'تطبيق Flutter' : 'Flutter client'}</b><div class="t-cap">Web · iOS · Android</div></div>
+    <p class="anno" style="margin-top:16px">media: S3 → Lambda → CloudFront</p>
+  </div>
+</figure>
+
+<style>
+  .arch-title { font-size: 14px; font-weight: 500; color: #faf9f7; }
+  .arch-mob { display: none; }
+  @media (max-width: 760px) {
+    .arch-desk { display: none; }
+    .arch-mob { display: flex; flex-direction: column; padding: 20px; }
+    .arch-mob .zone { color: #a9acaf; margin-bottom: 8px; }
+    .arch-box { border: 1px solid rgba(255,255,255,.22); border-radius: 10px; padding: 12px 14px; background: #2a2c2f; font-size: 14px; color: #faf9f7; }
+    .arch-box.dashed { border-style: dashed; border-color: rgba(255,255,255,.3); }
+    .arch-box.focal { border: 1.5px solid #d49aaa; }
+    .arch-box b { font-weight: 500; font-size: 15px; display: block; }
+    .arch-box .t-cap { color: #a9acaf; }
+    .arch-pair { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+    .arch-conn { display: flex; align-items: stretch; gap: 10px; height: 44px; padding-inline-start: 20px; }
+    .arch-conn > span:first-child { width: 1px; background: #7a7f85; }
+    .arch-conn.focal > span:first-child { background: #d49aaa; }
+    .arch-conn .t-cap { align-self: center; color: #a9acaf; }
+    .arch-conn.focal .t-cap { color: #d49aaa; }
+  }
+</style>

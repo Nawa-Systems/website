@@ -1,0 +1,100 @@
+---
+import { company, contactLinks } from '../data/site';
+import type { Locale } from '../lib/i18n';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const isAr = locale === 'ar';
+
+const t = isAr
+  ? {
+      label: 'تواصل معنا',
+      title: 'أخبرنا بما تريد بناءه أو إصلاحه أو ربطه.',
+      lead: 'راسلنا مباشرة. يقرأ الرسائلَ من سينفّذون العمل، وأول ردّ غالبًا أسئلة — لا عرض مبيعات.',
+      emailBtn: 'راسلنا عبر البريد', waBtn: 'راسلنا على واتساب',
+      email: 'البريد', phone: 'الهاتف', whatsapp: 'واتساب', location: 'الموقع', elsewhere: 'منصّات أخرى',
+      primary: 'الأساسي', locationVal: 'الخليل، فلسطين',
+      briefTitle: 'ما الذي يساعدنا على الإجابة جيدًا',
+      brief: ['المشكلة بكلماتك أنت', 'الأنظمة التي تستخدمها حاليًا', 'من سيستخدم النتيجة', 'أي موعد نهائي أو قيد'],
+      briefNote: 'بالعربية أو الإنجليزية — أيّهما أسهل لك.',
+    }
+  : {
+      label: 'Contact',
+      title: 'Tell us what you’re trying to build, fix or connect.',
+      lead: 'Write to us directly. Messages are read by the people who would do the work, and the first reply is usually questions — not a sales pitch.',
+      emailBtn: 'Email us', waBtn: 'Message on WhatsApp',
+      email: 'Email', phone: 'Phone', whatsapp: 'WhatsApp', location: 'Location', elsewhere: 'Elsewhere',
+      primary: 'primary', locationVal: 'Hebron, Palestine',
+      briefTitle: 'What helps us answer well',
+      brief: ['The problem, in your own words', 'Systems you already use', 'Who will use the result', 'Any deadline or constraint'],
+      briefNote: 'Arabic or English — whichever is easier for you.',
+    };
+---
+
+<section class="ct">
+  <svg class="ct-blade" viewBox="0 0 360 780" width="300" aria-hidden="true"><path d="M9.9 6.7L302 203.8Q360 243 360 313L360 751Q360 763 350.1 756.3L58 559.2Q0 520 0 450L0 12Q0 0 9.9 6.7Z" fill="none" stroke="#E2E1DD"></path></svg>
+  <div class="ct-nucleus" aria-hidden="true"></div>
+  <div class="wrap grid12 ct-inner">
+    <div class="ct-head">
+      <p class="sec-label">{t.label}</p>
+      <h1 class="t-h1">{t.title}</h1>
+      <p class="t-lead ct-lead">{t.lead}</p>
+      <div class="ct-ctas">
+        <a href={contactLinks.email} class="btn btn-primary btn-lg">{t.emailBtn}</a>
+        <a href={contactLinks.whatsapp} class="btn btn-secondary btn-lg">{t.waBtn}</a>
+      </div>
+    </div>
+
+    <div class="ct-rows">
+      <div class="crow"><span class="t-cap">{t.email}</span><a class="v" href={contactLinks.email}><bdi dir="ltr">{company.email}</bdi></a><span class="anno">{t.primary}</span></div>
+      <div class="crow"><span class="t-cap">{t.phone}</span><a class="v" href={contactLinks.phone}><bdi dir="ltr">{company.phoneDisplay}</bdi></a><span></span></div>
+      <div class="crow"><span class="t-cap">{t.whatsapp}</span><a class="v" href={contactLinks.whatsapp}><bdi dir="ltr">{company.whatsapp}</bdi></a><span></span></div>
+      <div class="crow"><span class="t-cap">{t.location}</span><span class="v-static">{t.locationVal}</span><span></span></div>
+      <div class="crow last"><span class="t-cap">{t.elsewhere}</span><span class="ct-social"><a href={contactLinks.github}>GitHub</a>{contactLinks.facebook && <a href={contactLinks.facebook}>Facebook</a>}</span><span></span></div>
+    </div>
+
+    <aside class="ct-brief" aria-labelledby="brief-h">
+      <div class="card ct-brief-card">
+        <h2 id="brief-h" class="t-h5">{t.briefTitle}</h2>
+        <ol class="ct-brief-list">
+          {t.brief.map((b, i) => (
+            <li><span class="mono ct-brief-ix">{String(i + 1).padStart(2, '0')}</span>{b}</li>
+          ))}
+        </ol>
+        <p class="t-cap ct-brief-note">{t.briefNote}</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .ct { position: relative; overflow: hidden; }
+  .ct-blade { position: absolute; inset-inline-end: -60px; top: 40px; }
+  .ct-nucleus { position: absolute; inset-inline-end: 230px; top: 72px; width: 40px; height: 40px; border-radius: 50%; background: var(--burgundy); }
+  .ct-inner { padding-top: 96px; padding-bottom: 96px; row-gap: 64px; position: relative; }
+  .ct-head { grid-column: 1 / span 7; display: flex; flex-direction: column; gap: 20px; }
+  .ct-lead { max-width: 36rem; }
+  .ct-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+  .ct-rows { grid-column: 1 / span 7; }
+  .crow { display: grid; grid-template-columns: 140px minmax(0, 1fr) auto; gap: 24px; align-items: center; padding: 22px 0; border-top: 1px solid var(--border); }
+  .crow.last { border-bottom: 1px solid var(--border); }
+  .crow a.v { font-size: 22px; font-weight: 500; color: var(--strong); text-decoration: none; }
+  .crow a.v:hover { color: var(--burgundy); }
+  .v-static { font-size: 22px; font-weight: 500; color: var(--strong); }
+  .ct-social { display: flex; gap: 28px; font-size: 18px; font-weight: 500; }
+  .ct-social a { color: var(--strong); }
+  .ct-social a:hover { color: var(--burgundy); }
+  .ct-brief { grid-column: 9 / span 4; align-self: start; }
+  .ct-brief-card { padding: 28px; display: flex; flex-direction: column; gap: 16px; }
+  .ct-brief-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 15px; color: var(--n700); }
+  .ct-brief-list li { display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: baseline; }
+  .ct-brief-ix { font-size: 12px; color: var(--burgundy); }
+  .ct-brief-note { border-top: 1px solid var(--border); padding-top: 14px; }
+
+  @media (max-width: 760px) {
+    .ct-ctas .btn { width: 100%; }
+    .crow { grid-template-columns: 1fr; gap: 4px; padding: 16px 0; }
+    .crow .anno { display: none; }
+    .crow a.v, .v-static { font-size: 18px; }
+  }
+</style>

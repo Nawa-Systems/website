@@ -3,18 +3,9 @@ import Base from '../../layouts/Base.astro';
 import ServicesSection from '../../components/ServicesSection.astro';
 
 const title = 'الخدمات — نواة';
-const description = 'أربع خدمات هندسية: تطوير برمجيات مخصصة، السحابة والبنية التحتية، الأتمتة، وتحديث الأنظمة والتكامل.';
+const description = 'أربع قدرات هندسية مصمّمة لتعمل كنظام واحد: تطوير البرمجيات المخصّصة، السحابة والبنية التحتية، الأتمتة، وتحديث الأنظمة والتكامل.';
 ---
 
 <Base locale="ar" title={title} description={description} path="/ar/services">
-  <header class="container page-header">
-    <h1>الخدمات</h1>
-  </header>
   <ServicesSection locale="ar" />
 </Base>
-
-<style>
-  .page-header {
-    padding-top: var(--space-6);
-  }
-</style>

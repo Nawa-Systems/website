@@ -1,0 +1,141 @@
+---
+// Hero system graphic — mark-derived blade modules, a burgundy nucleus, and
+// data/service/interface flows over a faint grid. Decorative (aria-hidden);
+// the headline carries the meaning. Coordinates are hand-mirrored for RTL, as
+// in the approved design. A compact variant is shown on small screens.
+import type { Locale } from '../../lib/i18n';
+const { locale } = Astro.props as { locale: Locale };
+const isAr = locale === 'ar';
+---
+<figure class="hero-graphic" aria-hidden="true">
+  {isAr ? (
+    <svg class="hg-desk" viewBox="0 0 640 560" width="100%" style="display:block">
+      <line x1="530" y1="40" x2="530" y2="540" stroke="#E2E1DD" stroke-width="1" stroke-dasharray="2 6"></line>
+      <line x1="408" y1="40" x2="408" y2="540" stroke="#E2E1DD" stroke-width="1" stroke-dasharray="2 6"></line>
+      <line x1="298" y1="40" x2="298" y2="540" stroke="#E2E1DD" stroke-width="1" stroke-dasharray="2 6"></line>
+      <line x1="122" y1="40" x2="122" y2="540" stroke="#E2E1DD" stroke-width="1" stroke-dasharray="2 6"></line>
+      <line x1="620" y1="96" x2="10" y2="96" stroke="#E2E1DD" stroke-width="1" stroke-dasharray="2 6"></line>
+      <line x1="620" y1="516" x2="10" y2="516" stroke="#E2E1DD" stroke-width="1" stroke-dasharray="2 6"></line>
+      <path d="M494 350C464 350 464 380 434 380" fill="none" stroke="#A9ACAF" stroke-width="1.25"></path>
+      <path d="M382 200C350 200 350 150 318 150" fill="none" stroke="#A9ACAF" stroke-width="1.25"></path>
+      <path d="M382 360C350 360 350 342 318 342" fill="none" stroke="#A9ACAF" stroke-width="1.25"></path>
+      <path d="M382 420C350 420 350 438 318 438" fill="none" stroke="#A9ACAF" stroke-width="1.25"></path>
+      <path d="M278 160C237 160 237 196 196 196" fill="none" stroke="#A9ACAF" stroke-width="1.25"></path>
+      <path d="M278 360C237 360 237 300 196 300" fill="none" stroke="#A9ACAF" stroke-width="1.25"></path>
+      <path d="M278 450C237 450 237 390 196 390" fill="none" stroke="#A9ACAF" stroke-width="1.25"></path>
+      <line x1="530" y1="114" x2="530" y2="174.3" stroke="#6E263C" stroke-width="1.5"></line>
+      <path d="M494 250C464 250 464 210 434 210" fill="none" stroke="#6E263C" stroke-width="1.5"></path>
+      <path d="M382 250C350 250 350 246 318 246" fill="none" stroke="#6E263C" stroke-width="1.5"></path>
+      <path d="M278 260C237 260 237 278 196 278" fill="none" stroke="#6E263C" stroke-width="1.5"></path>
+      <rect x="24" y="96" width="196" height="420" rx="14" fill="#FFFFFF" fill-opacity=".55" stroke="#A9ACAF" stroke-width="1" stroke-dasharray="5 5"></rect>
+      <path d="M498.1 152.8L547.8 186.3Q566 198.6 566 220.6L566 403.6Q566 408.6 561.9 405.8L512.2 372.3Q494 360 494 338L494 155Q494 150 498.1 152.8Z" fill="#2A2C2F"></path>
+      <path d="M385.3 152.2L422.4 177.3Q434 185.1 434 199.1L434 301.1Q434 305.1 430.7 302.9L393.6 277.8Q382 270 382 256L382 154Q382 150 385.3 152.2Z" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></path>
+      <path d="M385.3 320.2L422.4 345.3Q434 353.1 434 367.1L434 469.1Q434 473.1 430.7 470.9L393.6 445.8Q382 438 382 424L382 322Q382 318 385.3 320.2Z" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></path>
+      <path d="M280.5 119.7L309.7 139.4Q318 145 318 155L318 206Q318 209 315.5 207.3L286.3 187.6Q278 182 278 172L278 121Q278 118 280.5 119.7Z" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></path>
+      <path d="M280.5 215.7L309.7 235.4Q318 241 318 251L318 302Q318 305 315.5 303.3L286.3 283.6Q278 278 278 268L278 217Q278 214 280.5 215.7Z" fill="#fff" stroke="#6E263C" stroke-width="1.25"></path>
+      <path d="M280.5 311.7L309.7 331.4Q318 337 318 347L318 398Q318 401 315.5 399.3L286.3 379.6Q278 374 278 364L278 313Q278 310 280.5 311.7Z" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></path>
+      <path d="M280.5 407.7L309.7 427.4Q318 433 318 443L318 494Q318 497 315.5 495.3L286.3 475.6Q278 470 278 460L278 409Q278 406 280.5 407.7Z" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></path>
+      <rect x="48" y="170" width="148" height="52" rx="10" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></rect>
+      <rect x="48" y="262" width="148" height="52" rx="10" fill="#fff" stroke="#6E263C" stroke-width="1.5"></rect>
+      <rect x="48" y="354" width="148" height="52" rx="10" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></rect>
+      <line x1="122" y1="222" x2="122" y2="262" stroke="#A9ACAF" stroke-width="1.25"></line>
+      <line x1="122" y1="314" x2="122" y2="354" stroke="#A9ACAF" stroke-width="1.25"></line>
+      <circle cx="530" cy="96" r="18" fill="#6E263C"></circle>
+      <text direction="rtl" x="204" y="124" fill="#64686E" font-size="12" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">بيئة الإنتاج</text>
+      <text x="298" y="108" fill="#64686E" font-size="11" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace">01</text>
+      <text x="298" y="204" fill="#6E263C" font-size="11" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace">02</text>
+      <text x="298" y="300" fill="#64686E" font-size="11" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace">03</text>
+      <text x="298" y="396" fill="#64686E" font-size="11" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace">04</text>
+      <text direction="rtl" x="180" y="201" fill="#2A2C2F" font-size="13" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">الواجهات</text>
+      <text direction="rtl" x="180" y="293" fill="#6E263C" font-size="13" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">الخدمات</text>
+      <text direction="rtl" x="180" y="385" fill="#2A2C2F" font-size="13" text-anchor="start" style="font-family:'IBM Plex Sans Arabic',sans-serif">البيانات</text>
+    </svg>
+  ) : (
+    <svg class="hg-desk" viewBox="0 0 640 560" width="100%" style="display:block">
+      <line x1="110" y1="40" x2="110" y2="540" stroke="#E2E1DD" stroke-width="1" stroke-dasharray="2 6"></line>
+      <line x1="232" y1="40" x2="232" y2="540" stroke="#E2E1DD" stroke-width="1" stroke-dasharray="2 6"></line>
+      <line x1="342" y1="40" x2="342" y2="540" stroke="#E2E1DD" stroke-width="1" stroke-dasharray="2 6"></line>
+      <line x1="518" y1="40" x2="518" y2="540" stroke="#E2E1DD" stroke-width="1" stroke-dasharray="2 6"></line>
+      <line x1="20" y1="96" x2="630" y2="96" stroke="#E2E1DD" stroke-width="1" stroke-dasharray="2 6"></line>
+      <line x1="20" y1="516" x2="630" y2="516" stroke="#E2E1DD" stroke-width="1" stroke-dasharray="2 6"></line>
+      <path d="M146 350C176 350 176 380 206 380" fill="none" stroke="#A9ACAF" stroke-width="1.25"></path>
+      <path d="M258 200C290 200 290 150 322 150" fill="none" stroke="#A9ACAF" stroke-width="1.25"></path>
+      <path d="M258 360C290 360 290 342 322 342" fill="none" stroke="#A9ACAF" stroke-width="1.25"></path>
+      <path d="M258 420C290 420 290 438 322 438" fill="none" stroke="#A9ACAF" stroke-width="1.25"></path>
+      <path d="M362 160C403 160 403 196 444 196" fill="none" stroke="#A9ACAF" stroke-width="1.25"></path>
+      <path d="M362 360C403 360 403 300 444 300" fill="none" stroke="#A9ACAF" stroke-width="1.25"></path>
+      <path d="M362 450C403 450 403 390 444 390" fill="none" stroke="#A9ACAF" stroke-width="1.25"></path>
+      <line x1="110" y1="114" x2="110" y2="174.3" stroke="#6E263C" stroke-width="1.5"></line>
+      <path d="M146 250C176 250 176 210 206 210" fill="none" stroke="#6E263C" stroke-width="1.5"></path>
+      <path d="M258 250C290 250 290 246 322 246" fill="none" stroke="#6E263C" stroke-width="1.5"></path>
+      <path d="M362 260C403 260 403 278 444 278" fill="none" stroke="#6E263C" stroke-width="1.5"></path>
+      <rect x="420" y="96" width="196" height="420" rx="14" fill="#FFFFFF" fill-opacity=".55" stroke="#A9ACAF" stroke-width="1" stroke-dasharray="5 5"></rect>
+      <path d="M78.1 152.8L127.8 186.3Q146 198.6 146 220.6L146 403.6Q146 408.6 141.9 405.8L92.2 372.3Q74 360 74 338L74 155Q74 150 78.1 152.8Z" fill="#2A2C2F"></path>
+      <path d="M209.3 152.2L246.4 177.3Q258 185.1 258 199.1L258 301.1Q258 305.1 254.7 302.9L217.6 277.8Q206 270 206 256L206 154Q206 150 209.3 152.2Z" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></path>
+      <path d="M209.3 320.2L246.4 345.3Q258 353.1 258 367.1L258 469.1Q258 473.1 254.7 470.9L217.6 445.8Q206 438 206 424L206 322Q206 318 209.3 320.2Z" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></path>
+      <path d="M324.5 119.7L353.7 139.4Q362 145 362 155L362 206Q362 209 359.5 207.3L330.3 187.6Q322 182 322 172L322 121Q322 118 324.5 119.7Z" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></path>
+      <path d="M324.5 215.7L353.7 235.4Q362 241 362 251L362 302Q362 305 359.5 303.3L330.3 283.6Q322 278 322 268L322 217Q322 214 324.5 215.7Z" fill="#fff" stroke="#6E263C" stroke-width="1.25"></path>
+      <path d="M324.5 311.7L353.7 331.4Q362 337 362 347L362 398Q362 401 359.5 399.3L330.3 379.6Q322 374 322 364L322 313Q322 310 324.5 311.7Z" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></path>
+      <path d="M324.5 407.7L353.7 427.4Q362 433 362 443L362 494Q362 497 359.5 495.3L330.3 475.6Q322 470 322 460L322 409Q322 406 324.5 407.7Z" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></path>
+      <rect x="444" y="170" width="148" height="52" rx="10" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></rect>
+      <rect x="444" y="262" width="148" height="52" rx="10" fill="#fff" stroke="#6E263C" stroke-width="1.5"></rect>
+      <rect x="444" y="354" width="148" height="52" rx="10" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></rect>
+      <line x1="518" y1="222" x2="518" y2="262" stroke="#A9ACAF" stroke-width="1.25"></line>
+      <line x1="518" y1="314" x2="518" y2="354" stroke="#A9ACAF" stroke-width="1.25"></line>
+      <circle cx="110" cy="96" r="18" fill="#6E263C"></circle>
+      <text x="436" y="124" fill="#64686E" font-size="11" style="font-family:'IBM Plex Mono',monospace">production</text>
+      <text x="322" y="108" fill="#64686E" font-size="11" style="font-family:'IBM Plex Mono',monospace">01</text>
+      <text x="322" y="204" fill="#6E263C" font-size="11" style="font-family:'IBM Plex Mono',monospace">02</text>
+      <text x="322" y="300" fill="#64686E" font-size="11" style="font-family:'IBM Plex Mono',monospace">03</text>
+      <text x="322" y="396" fill="#64686E" font-size="11" style="font-family:'IBM Plex Mono',monospace">04</text>
+      <text x="460" y="201" fill="#2A2C2F" font-size="12" style="font-family:'IBM Plex Mono',monospace">interfaces</text>
+      <text x="460" y="293" fill="#6E263C" font-size="12" style="font-family:'IBM Plex Mono',monospace">services</text>
+      <text x="460" y="385" fill="#2A2C2F" font-size="12" style="font-family:'IBM Plex Mono',monospace">data</text>
+    </svg>
+  )}
+
+  <svg class="hg-mob" viewBox="0 0 358 232" width="100%" style="display:block">
+    <path d="M54 140C75 140 75 150 96 150" fill="none" stroke="#A9ACAF" stroke-width="1.25"></path>
+    <path d="M126 96C148 96 148 72 170 72" fill="none" stroke="#A9ACAF" stroke-width="1.25"></path>
+    <path d="M126 170C148 170 148 160 170 160" fill="none" stroke="#A9ACAF" stroke-width="1.25"></path>
+    <path d="M54 100C75 100 75 86 96 86" fill="none" stroke="#6E263C" stroke-width="1.5"></path>
+    <path d="M126 120C148 120 148 116 170 116" fill="none" stroke="#6E263C" stroke-width="1.5"></path>
+    <path d="M200 124C216 124 216 110 232 110" fill="none" stroke="#6E263C" stroke-width="1.5"></path>
+    <line x1="36" y1="30" x2="36" y2="66.2" stroke="#6E263C" stroke-width="1.5"></line>
+    <rect x="222" y="24" width="112" height="170" rx="12" fill="#fff" fill-opacity=".6" stroke="#A9ACAF" stroke-dasharray="4 4"></rect>
+    <path d="M20.5 55.7L44.1 71.6Q54 78.3 54 90.3L54 195.3Q54 198.3 51.5 196.6L27.9 180.7Q18 174 18 162L18 57Q18 54 20.5 55.7Z" fill="#2A2C2F"></path>
+    <path d="M98.5 61.7L118.5 75.2Q126 80.2 126 89.2L126 137.2Q126 140.2 123.5 138.6L103.5 125Q96 120 96 111L96 63Q96 60 98.5 61.7Z" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></path>
+    <path d="M98.5 133.7L118.5 147.2Q126 152.2 126 161.2L126 209.2Q126 212.2 123.5 210.6L103.5 197Q96 192 96 183L96 135Q96 132 98.5 133.7Z" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></path>
+    <path d="M171.7 37.1L194.2 52.3Q200 56.2 200 63.2L200 84.2Q200 86.2 198.3 85.1L175.8 69.9Q170 66 170 59L170 38Q170 36 171.7 37.1Z" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></path>
+    <path d="M171.7 87.1L194.2 102.3Q200 106.2 200 113.2L200 134.2Q200 136.2 198.3 135.1L175.8 119.9Q170 116 170 109L170 88Q170 86 171.7 87.1Z" fill="#fff" stroke="#6E263C" stroke-width="1.25"></path>
+    <path d="M171.7 137.1L194.2 152.3Q200 156.2 200 163.2L200 184.2Q200 186.2 198.3 185.1L175.8 169.9Q170 166 170 159L170 138Q170 136 171.7 137.1Z" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></path>
+    <rect x="234" y="56" width="86" height="30" rx="8" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></rect>
+    <rect x="234" y="94" width="86" height="30" rx="8" fill="#fff" stroke="#6E263C" stroke-width="1.5"></rect>
+    <rect x="234" y="132" width="86" height="30" rx="8" fill="#fff" stroke="#2A2C2F" stroke-width="1.25"></rect>
+    <circle cx="36" cy="24" r="12" fill="#6E263C"></circle>
+    {isAr ? (
+      <>
+        <text x="320" y="44" fill="#64686E" font-size="10" text-anchor="end" style="font-family:'IBM Plex Sans Arabic',sans-serif">بيئة الإنتاج</text>
+        <text x="316" y="75" fill="#2A2C2F" font-size="10.5" text-anchor="end" style="font-family:'IBM Plex Sans Arabic',sans-serif">الواجهات</text>
+        <text x="316" y="113" fill="#6E263C" font-size="10.5" text-anchor="end" style="font-family:'IBM Plex Sans Arabic',sans-serif">الخدمات</text>
+        <text x="316" y="151" fill="#2A2C2F" font-size="10.5" text-anchor="end" style="font-family:'IBM Plex Sans Arabic',sans-serif">البيانات</text>
+      </>
+    ) : (
+      <>
+        <text x="234" y="44" fill="#64686E" font-size="10" style="font-family:'IBM Plex Mono',monospace">production</text>
+        <text x="244" y="75" fill="#2A2C2F" font-size="10.5" style="font-family:'IBM Plex Mono',monospace">interfaces</text>
+        <text x="244" y="113" fill="#6E263C" font-size="10.5" style="font-family:'IBM Plex Mono',monospace">services</text>
+        <text x="244" y="151" fill="#2A2C2F" font-size="10.5" style="font-family:'IBM Plex Mono',monospace">data</text>
+      </>
+    )}
+  </svg>
+</figure>
+
+<style>
+  .hero-graphic { margin: 0; position: relative; }
+  .hg-mob { display: none; }
+  @media (max-width: 640px) {
+    .hg-desk { display: none; }
+    .hg-mob { display: block; margin-top: 4px; }
+  }
+</style>

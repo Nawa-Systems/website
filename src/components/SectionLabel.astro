@@ -1,0 +1,13 @@
+---
+// Section label: the Nawa blade glyph + optional monospace index + name.
+// English uppercase/tracking is intentionally NOT applied; Arabic reads plainly.
+interface Props {
+  index?: string;
+  onDark?: boolean;
+  class?: string;
+}
+const { index, onDark, class: className } = Astro.props;
+---
+<p class:list={['sec-label', { 'on-dark': onDark }, className]}>
+  {index && <span class="ix">{index}</span>}<slot />
+</p>
