@@ -1,69 +1,17 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
+import InsightsIndex from '../../../components/InsightsIndex.astro';
 
-const posts = (await getCollection('insights-en', ({ data }) => !data.draft)).sort(
+const entries = (await getCollection('insights-en', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
 );
+const posts = entries.map((p) => ({ id: p.id, title: p.data.title, description: p.data.description }));
 
 const title = 'Insights — Nawa';
-const description = 'Engineering notes and articles from Nawa.';
+const description = 'Engineering notes and articles from Nawa — architecture, integration and automation from real work.';
 ---
 
 <Base locale="en" title={title} description={description} path="/en/insights">
-  <div class="container insights-page">
-    <header class="page-header">
-      <h1>Insights</h1>
-    </header>
-
-    {posts.length === 0 ? (
-      <p class="insights-empty">No published articles yet. Check back soon.</p>
-    ) : (
-      <ul class="insights-list">
-        {posts.map((post) => (
-          <li>
-            <a href={`/en/insights/${post.id}`}>
-              <h2>{post.data.title}</h2>
-              <p>{post.data.description}</p>
-            </a>
-          </li>
-        ))}
-      </ul>
-    )}
-  </div>
+  <InsightsIndex locale="en" posts={posts} />
 </Base>
-
-<style>
-  .insights-page {
-    padding-block: var(--space-6) var(--space-8);
-  }
-  .page-header {
-    margin-bottom: var(--space-5);
-  }
-  .insights-empty {
-    color: var(--color-secondary-text);
-    max-width: var(--max-width-prose);
-  }
-  .insights-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    max-width: var(--max-width-prose);
-  }
-  .insights-list li {
-    border-top: 1px solid var(--color-border);
-    padding-block: var(--space-4);
-  }
-  .insights-list a {
-    text-decoration: none;
-    color: inherit;
-  }
-  .insights-list h2 {
-    font-size: var(--text-lg);
-    margin-bottom: var(--space-1);
-  }
-  .insights-list p {
-    color: var(--color-secondary-text);
-    margin: 0;
-  }
-</style>

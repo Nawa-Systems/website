@@ -1,29 +1,39 @@
 ---
+// Nawa symbol — inline SVG, exact vector master geometry (viewBox 190 155 874 952).
+// Two deep-charcoal architectural forms + a burgundy circular nucleus.
+// Never stretched, rotated, mirrored or recolored outside the approved variants.
 interface Props {
   variant?: 'primary' | 'charcoal' | 'white';
   width?: number;
   class?: string;
+  title?: string;
 }
 
-const { variant = 'primary', width = 40, class: className } = Astro.props;
-
-const files = {
-  primary: '/brand/nawa-symbol-primary.svg',
-  charcoal: '/brand/nawa-symbol-charcoal.svg',
-  white: '/brand/nawa-symbol-white.svg',
-} as const;
-
-// Symbol viewBox is 190 155 874 952 (aspect 874/952). Height must derive from
-// width to preserve the mark's proportions — never force a square box.
+const { variant = 'primary', width = 28, class: className, title } = Astro.props;
 const height = Math.round(width * (952 / 874));
+
+// primary = charcoal structure + burgundy nucleus; charcoal/white = single-ink.
+const structure = variant === 'white' ? '#FAF9F7' : variant === 'charcoal' ? '#2A2C2F' : '#2A2C2F';
+const nucleus = variant === 'white' ? '#FAF9F7' : variant === 'charcoal' ? '#2A2C2F' : '#6E263C';
 ---
 
-<img
-  src={files[variant]}
-  alt="Nawa"
+<svg
+  viewBox="190 155 874 952"
   width={width}
   height={height}
   class={`icon-brand ${className ?? ''}`}
-  loading="eager"
-  decoding="async"
-/>
+  role={title ? 'img' : undefined}
+  aria-hidden={title ? undefined : 'true'}
+  aria-label={title ?? undefined}
+  style="display:block;flex:none"
+>
+  <path
+    fill={structure}
+    d="M281 450C274 450 269 457 269 466L269 771C269 811 292 841 329 869L536 1010C547 1017 561 1009 561 996L561 689C561 651 544 620 510 592L302 453C295 448 288 447 281 450Z"
+  ></path>
+  <path
+    fill={structure}
+    d="M594 349L894 558C948 596 984 649 984 705L984 1007C984 1020 974 1028 961 1028C955 1028 949 1026 944 1023L775 912C750 896 736 873 736 848L736 753C736 714 719 685 689 661L635 625C608 607 594 585 594 556Z"
+  ></path>
+  <circle fill={nucleus} cx="875" cy="343" r="109"></circle>
+</svg>

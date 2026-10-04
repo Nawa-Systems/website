@@ -1,12 +1,11 @@
 ---
 import Base from '../../../layouts/Base.astro';
-import CaseStudy from '../../../components/CaseStudy.astro';
-import { getRihabCopy } from '../../../data/caseStudies/rihabCopy';
+import RihabCaseStudy from '../../../components/RihabCaseStudy.astro';
 
-const copy = getRihabCopy('ar');
-const title = `${copy.title} — نواة`;
+const title = 'رحاب — دراسة حالة · نواة';
+const description = 'رحاب، سوق فلسطيني تبنيه وتشغّله نواة: مساحات عمل للتجّار، واتفاقيات مُصدَّرة، ولوجستيات محايدة تجاه الناقل، وتنسيق طلبات، ومستورد منتجات من فيسبوك.';
 ---
 
-<Base locale="ar" title={title} description={copy.summary} path="/ar/work/rihab">
-  <CaseStudy slug="rihab" {...copy} />
+<Base locale="ar" title={title} description={description} path="/ar/work/rihab">
+  <RihabCaseStudy locale="ar" />
 </Base>

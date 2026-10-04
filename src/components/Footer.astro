@@ -1,104 +1,178 @@
 ---
 import Logo from './Logo.astro';
-import { company, contactLinks } from '../data/site';
-import { t, type Locale } from '../lib/i18n';
+import { company, contactLinks, services } from '../data/site';
+import { t, otherLocale, type Locale } from '../lib/i18n';
 
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
-const strings = t(locale);
+const s = t(locale);
+const isAr = locale === 'ar';
+const alt = otherLocale(locale);
 const year = new Date().getFullYear();
+
+// Service → anchor on the services page.
+const serviceAnchor: Record<string, string> = {
+  'custom-software': 'custom',
+  'cloud-infrastructure': 'cloud',
+  automation: 'automation',
+  'modernization-integration': 'modernization',
+};
 ---
 
-<footer class="site-footer">
-  <div class="container site-footer__inner">
-    <div class="site-footer__brand">
-      <Logo variant="charcoal" width={28} />
-      <span class="bidi-isolate">Nawa — نواة</span>
-      <p>{strings.footerTagline}</p>
+<footer class={`site-footer ft ${locale}`}>
+  <svg class="site-footer__blade" viewBox="0 0 360 780" width="300" aria-hidden="true">
+    <path d="M9.9 6.7L302 203.8Q360 243 360 313L360 751Q360 763 350.1 756.3L58 559.2Q0 520 0 450L0 12Q0 0 9.9 6.7Z" fill="none" stroke="#FFFFFF" stroke-opacity=".08"></path>
+  </svg>
+
+  <div class="wrap site-footer__inner">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <div class="site-footer__brandrow">
+          <Logo variant="white" width={30} />
+          <span>{isAr ? company.nameAr : company.nameEn}</span>
+        </div>
+        <p>{s.footerDesc}</p>
+      </div>
+
+      <nav aria-label={s.footerServices}>
+        <h2>{s.footerServices}</h2>
+        <ul>
+          {services.map((svc) => (
+            <li>
+              <a href={`/${locale}/services#${serviceAnchor[svc.slug]}`}>{isAr ? svc.nameAr : svc.nameEn}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav aria-label={s.footerCompany}>
+        <h2>{s.footerCompany}</h2>
+        <ul>
+          <li><a href={`/${locale}/work`}>{s.navWork}</a></li>
+          <li><a href={`/${locale}/about`}>{s.navAbout}</a></li>
+          <li><a href={`/${locale}/contact`}>{s.navContact}</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-footer__contact">
+        <h2>{s.footerContact}</h2>
+        <ul>
+          <li><a href={contactLinks.email}><bdi dir="ltr">{company.email}</bdi></a></li>
+          <li><a href={contactLinks.phone}>{s.phone} <bdi dir="ltr">{company.phoneDisplay}</bdi></a></li>
+          <li><a href={contactLinks.whatsapp} target="_blank" rel="noopener noreferrer">{s.whatsapp} <bdi dir="ltr">{company.whatsapp}</bdi></a></li>
+          <li class="site-footer__social">
+            <a href={contactLinks.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+            {contactLinks.facebook && <a href={contactLinks.facebook} target="_blank" rel="noopener noreferrer">Facebook</a>}
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <div class="site-footer__links">
-      <a href={contactLinks.email}>{strings.email}</a>
-      <a href={contactLinks.phone} class="bidi-isolate">{strings.phone} — {company.phoneDisplay}</a>
-      <a href={contactLinks.whatsapp} target="_blank" rel="noopener noreferrer">{strings.whatsapp}</a>
-      <a href={contactLinks.github} target="_blank" rel="noopener noreferrer">{strings.github}</a>
-      {contactLinks.facebook && (
-        <a href={contactLinks.facebook} target="_blank" rel="noopener noreferrer">Facebook</a>
-      )}
+    <div class="site-footer__bottom">
+      <span class="bidi-isolate">© <bdi>{year}</bdi> {isAr ? company.nameAr : company.nameEn}</span>
+      <span>{isAr ? company.location.ar : company.location.en}</span>
+      <span class="site-footer__bottom-links">
+        <a href={`/${locale}/privacy`}>{s.privacy}</a>
+        <a href={`/${locale}/terms`}>{s.terms}</a>
+        <a href={`/${alt}`} lang={alt} hreflang={alt}>{isAr ? 'English' : 'العربية'}</a>
+      </span>
     </div>
-
-    <div class="site-footer__legal">
-      <a href={`/${locale}/privacy`}>{strings.privacy}</a>
-      <a href={`/${locale}/terms`}>{strings.terms}</a>
-    </div>
-  </div>
-
-  <div class="container site-footer__bottom">
-    <p class="bidi-isolate">© {year} Nawa — نواة</p>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    border-top: 1px solid var(--color-border);
-    margin-top: var(--space-8);
-    padding-block: var(--space-6);
-    background: var(--color-subtle-surface);
+    position: relative;
+    overflow: hidden;
+    background: #151617;
+    color: #faf9f7;
   }
-
+  .site-footer__blade {
+    position: absolute;
+    inset-inline-end: -40px;
+    top: -120px;
+    opacity: 0.9;
+    pointer-events: none;
+  }
   .site-footer__inner {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: var(--space-5);
+    padding-top: 72px;
+    padding-bottom: 32px;
+    position: relative;
   }
-
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+    gap: 40px 24px;
+  }
   .site-footer__brand {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
-    font-weight: var(--weight-semibold);
+    gap: 16px;
+    grid-column: span 2;
+    max-width: 360px;
   }
-
+  .site-footer__brandrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 20px;
+    font-weight: 600;
+  }
   .site-footer__brand p {
-    font-weight: var(--weight-regular);
-    color: var(--color-secondary-text);
-    font-size: var(--text-sm);
-    max-width: 32ch;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #a9acaf;
   }
-
-  .site-footer__links,
-  .site-footer__legal {
+  .ar .site-footer__brand p { line-height: 1.95; }
+  .ft h2 {
+    font-size: 13px;
+    font-weight: 500;
+    color: #7a7f85;
+    margin: 0 0 16px;
+  }
+  .ft ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: 10px;
+    font-size: 15px;
   }
-
-  .site-footer__links a,
-  .site-footer__legal a {
+  .ft a {
+    color: #c9cbcd;
     text-decoration: none;
-    color: var(--color-secondary-text);
-    font-size: var(--text-sm);
   }
-
-  .site-footer__links a:hover,
-  .site-footer__legal a:hover {
-    color: var(--color-burgundy);
+  .ft a:hover { color: #ffffff; }
+  .site-footer__social {
+    display: flex;
+    gap: 20px;
   }
-
   .site-footer__bottom {
-    margin-top: var(--space-6);
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--color-border);
-    color: var(--color-secondary-text);
-    font-size: var(--text-xs);
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    align-items: center;
+    font-size: 13px;
+    color: #7a7f85;
   }
+  .site-footer__bottom-links {
+    margin-inline-start: auto;
+    display: flex;
+    gap: 24px;
+  }
+  .site-footer__bottom-links a { color: #a9acaf; }
+  .site-footer__bottom-links a:hover { color: #fff; }
 
   @media (max-width: 640px) {
-    .site-footer__inner {
-      grid-template-columns: 1fr;
-    }
+    .site-footer__brand { grid-column: 1 / -1; }
+    .site-footer__bottom-links { margin-inline-start: 0; }
   }
 </style>

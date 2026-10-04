@@ -1,0 +1,334 @@
+---
+import ResponsiveImage from './ResponsiveImage.astro';
+import HomeArchitecture from './home/HomeArchitecture.astro';
+import type { Locale } from '../lib/i18n';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const isAr = locale === 'ar';
+const L = (slug: string) => `/${locale}/${slug}`;
+const linkArrow = `<svg class="dir-icon" width="32" height="12" viewBox="0 0 32 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6H28M24 2l4 4-4 4"></path></svg>`;
+
+const t = isAr
+  ? {
+      bcWork: 'الأعمال', tag: 'عمل لعميل',
+      title: 'Magic Car — طبقة حديثة حول نظام قائم، لا بديلٌ عنه.',
+      lead: 'منصة B2B لتجّار إكسسوارات السيارات، مبنية حول نظام ERP يبقى المرجع المعتمد. بنينا تجربة التاجر وأدوات الإدارة وطبقة التكامل التي تربط الاثنين.',
+      mClient: 'العميل', mPlat: 'المنصّات', mUsers: 'المستخدمون', mUsersV: 'التجّار · فريق الإدارة',
+      mSys: 'النظام القائم', mSysV: 'ERP — المرجع للمنتجات والأسعار والحسابات',
+      capCatalog: 'الكتالوج', capCart: 'السلة', capOrders: 'الطلبات',
+      s1: 'السياق والقيد', ctxH: 'السياق التجاري',
+      ctx: 'تبيع Magic Car للتجّار بالجملة، ويعتمد عملها اليومي على نظام ERP قائم يدير المنتجات والأسعار والحسابات. احتاج التجّار طريقة حديثة للتصفّح والطلب، واحتاج الفريق أدوات لمراجعة الطلبات وإدارة الحملات.',
+      conH: 'القيد الأساسي',
+      con: 'النظام القائم يعمل ويحمل بيانات العمل الحقيقية. استبداله كان سيضيف خطرًا دون فائدة. لذلك بقي هو المرجع، وكان على الطبقة الجديدة أن تحترم حدوده.',
+      s2: 'حدود التكامل', intH: 'ما يملكه النظام القائم، وما تملكه الطبقة الجديدة.',
+      intLead: 'يبقى ERP مصدر الحقيقة. تقرأ طبقة التكامل منه، وتحتفظ بنسخة موثوقة من الكتالوج، وتعود إليه عند كل طلب قبل أي التزام تجاري.',
+      rcH: 'كتالوج منتجات يصمد', rcSub: 'بيانات ERP · ذاكرة مؤقتة موثوقة · وسائط سحابية',
+      rcName: 'الكتالوج الموثوق — Magic Car', rcAnno: 'resilient product catalog · internal view, simplified',
+      s3: 'كتالوج يصمد', rdH: 'التطبيق يبقى صادقًا حتى عندما يتعطّل المصدر.',
+      decisions: [
+        { id: 'D-01', h: 'آخر نسخة سليمة من الكتالوج', b: 'إذا تعذّر الوصول إلى ERP، يعرض التطبيق آخر كتالوج سليم بدل شاشة فارغة أو بيانات مختلَقة.' },
+        { id: 'D-02', h: 'تحقّق لحظي عند الطلب', b: 'الكتالوج المخزّن للتصفّح فقط. مسار قبول الطلب يتجاوزه: تراجع الإدارة الطلب، ثم يُعاد التحقق من السعر والتوفّر مع النظام القائم مباشرة. لذلك يظهر الإجمالي في السلة «تقديريًا».' },
+        { id: 'D-03', h: 'البيانات الحسّاسة لا تُعرض', b: 'يرى التاجر «متوفّر» أو «غير متوفّر» فقط، دون الكمية الفعلية أو سعر التكلفة، ولا يظهر سعر غير معروف على أنه صفر.' },
+        { id: 'D-04', h: 'مسار وسائط مستقل', b: 'تُرفع الصور والفيديو إلى S3، وتُعالَج عبر Lambda، وتُقدَّم عبر CloudFront، بعيدًا عن النظام القائم.' },
+      ],
+      s4: 'تجربة التاجر', trH: 'طلب سريع، بأرقام لا تدّعي ما لا تعرفه.',
+      tr: 'السلة تعرض الكميات وملاحظة لكل سطر وإجماليًا تقديريًا، مع تنبيه واضح بأن الأسعار تخضع لتأكيد Magic Car. بعد الإرسال يتابع التاجر حالة كل طلب: قيد المراجعة، مقبول، أو مرفوض.',
+      figCart: 'السلة — «الأسعار والمجموع تقديرية»', figOrders: 'الطلبات — حالة واضحة لكل طلب',
+      s5: 'سير العمل التشغيلي', opH: 'الإدارة ترى ما يحتاج انتباهها أولًا.',
+      op: 'لوحة الإدارة تبدأ بما ينتظر قرارًا، ومنها تراجع الطلبات وتربط العملاء بحسابات التجّار في ERP وتدير الحملات والإعلانات — كلها في التطبيق نفسه.',
+      figAdmin: 'لوحة الإدارة — تبدأ بما ينتظر قرارًا',
+      s6: 'دروس هندسية',
+      lessons: [{ h: 'احترم المرجع', b: 'طبقة حديثة حول نظام قائم تقلّل الخطر وتسرّع التسليم، بشرط أن تكون حدود الملكية واضحة من اليوم الأول.' }],
+      nextLabel: 'دراسة الحالة التالية', nextName: 'رحاب — سوق رقمي فلسطيني', startCta: 'ابدأ مشروعك',
+      altCatalog: 'كتالوج Magic Car: المنتجات بالسعر والتوفّر ورقم الصنف',
+      altCart: 'سلة التاجر مع الإجمالي التقديري وزر إرسال الطلب',
+      altOrders: 'قائمة طلبات التاجر بالحالات: مقبول، مرفوض، قيد المراجعة',
+      altAdmin: 'لوحة إدارة Magic Car: ما يتطلّب الاهتمام والعمليات الأساسية',
+    }
+  : {
+      bcWork: 'Work', tag: 'Client Work',
+      title: 'Magic Car — a modern layer around an existing system, not a replacement.',
+      lead: 'A B2B platform for car-accessory traders, built around an ERP that stays the source of truth. We built the trader experience, the admin tools, and the integration layer that connects the two.',
+      mClient: 'Client', mPlat: 'Platforms', mUsers: 'Users', mUsersV: 'Traders · admin team',
+      mSys: 'Existing system', mSysV: 'ERP — authoritative for products, prices and accounts',
+      capCatalog: 'Catalog', capCart: 'Cart', capOrders: 'Orders',
+      s1: 'Context & constraint', ctxH: 'Business context',
+      ctx: 'Magic Car sells to wholesale traders, and its daily operation runs on an existing ERP that manages products, prices and accounts. Traders needed a modern way to browse and order, and the team needed tools to review orders and run campaigns.',
+      conH: 'The core constraint',
+      con: 'The existing system works and holds the real business data. Replacing it would add risk with no benefit. So it stayed authoritative, and the new layer had to respect its boundaries.',
+      s2: 'Integration boundaries', intH: 'What the existing system owns, and what the new layer owns.',
+      intLead: 'The ERP stays the source of truth. The integration layer reads from it, keeps a reliable copy of the catalog, and returns to it on every order before any commercial commitment.',
+      rcH: 'A product catalog that holds', rcSub: 'ERP data · reliable cache · cloud media',
+      rcName: 'Resilient catalog — Magic Car', rcAnno: 'resilient product catalog · internal view, simplified',
+      s3: 'A catalog that holds', rdH: 'The app stays honest even when the source is down.',
+      decisions: [
+        { id: 'D-01', h: 'Last-known-good catalog', b: 'If the ERP is unreachable, the app shows the last good catalog instead of a blank screen or invented data.' },
+        { id: 'D-02', h: 'Live validation at order time', b: 'The stored catalog is for browsing only. The order-acceptance path bypasses it: admin reviews the order, then price and availability are re-validated against the existing system directly. That is why the cart total is shown as “estimated”.' },
+        { id: 'D-03', h: 'Sensitive data is never exposed', b: 'A trader sees only “available” or “unavailable” — never the real stock quantity or cost price — and an unknown price is never shown as zero.' },
+        { id: 'D-04', h: 'Independent media pipeline', b: 'Images and video are uploaded to S3, processed through Lambda, and served via CloudFront, away from the existing system.' },
+      ],
+      s4: 'Trader experience', trH: 'Fast ordering, with numbers that don’t claim what they don’t know.',
+      tr: 'The cart shows quantities, a note per line and an estimated total, with a clear warning that prices are subject to Magic Car’s confirmation. After submitting, the trader tracks each order’s state: in review, accepted, or rejected.',
+      figCart: 'Cart — “prices and total are estimated”', figOrders: 'Orders — a clear state per order',
+      s5: 'Operational workflow', opH: 'Admin sees what needs attention first.',
+      op: 'The admin dashboard starts with what is waiting on a decision — and from there the team reviews orders, links customers to ERP trader accounts, and runs campaigns and announcements, all in the same app.',
+      figAdmin: 'Admin dashboard — starts with what needs a decision',
+      s6: 'Engineering lessons',
+      lessons: [{ h: 'Respect the source of truth', b: 'A modern layer around an existing system reduces risk and speeds delivery — provided the ownership boundaries are clear from day one.' }],
+      nextLabel: 'Next case study', nextName: 'Rihab — a Palestinian marketplace', startCta: 'Start a project',
+      altCatalog: 'Magic Car catalog: products with price, availability and item number',
+      altCart: 'Trader cart with an estimated total and a submit-order button',
+      altOrders: 'Trader orders list with states: accepted, rejected, in review',
+      altAdmin: 'Magic Car admin dashboard: what needs attention and core operations',
+    };
+
+// resilient-catalog diagram nodes (bilingual)
+const rc = isAr
+  ? {
+      erp: 'ERP', erpSub: 'مصدر الحقيقة', erpData: 'بيانات تجارية معتمدة',
+      refresh: 'تحديث الكتالوج', refreshSub: 'التحقق من لقطة كاملة',
+      refreshList: ['جلب الكتالوج', 'التحقق من الاكتمال والربط', 'بناء لقطة مرشّحة'],
+      warn: 'فشل التحديث ← تبقى اللقطة الحالية',
+      lkg: 'آخر نسخة سليمة', lkgSub: 'last-known-good · نشر ذرّي',
+      lkgList: ['لقطة ثابتة في الذاكرة', 'نسخة سليمة محفوظة بشكل دائم', 'استعادة عند التشغيل'],
+      media: 'الوسائط السحابية', compose: 'تركيب المنتج', composeSub: 'إثراء المنتج بالحملات والوسائط',
+      api: 'واجهة المنتج الآمنة', apiSub: 'عقد آمن للتاجر — بلا كمية مخزون ولا تكلفة',
+      apiList: ['ItemID', 'Name', 'Price', 'Campaign price', 'Availability', 'Image URL'],
+      apps: 'تطبيقات Flutter', appsSub: 'Web · iOS · Android',
+      orderLead: 'مسار قبول الطلب', orderSub: 'يتجاوز الذاكرة المؤقتة · تحقّق مباشر من ERP',
+      orderSteps: [['طلب التاجر', 'يصل بعد الإرسال'], ['مراجعة الإدارة', 'مراجعة الطلب وقبوله'], ['تحقّق لحظي من المنتج', 'إعادة التحقق من السعر والتوفّر'], ['ERP', 'مصدر الحقيقة']],
+      note: 'ذاكرة مؤقتة للقراءة الموثوقة، وERP مباشر للقرارات التجارية.', noteSub: 'أداء وتوفّر دون إضعاف صحة المعاملات.',
+    }
+  : {
+      erp: 'ERP', erpSub: 'source of truth', erpData: 'authoritative commercial data',
+      refresh: 'Catalog refresh', refreshSub: 'full-snapshot validation',
+      refreshList: ['Fetch catalog', 'Validate completeness & linkage', 'Build candidate snapshot'],
+      warn: 'Refresh fails → current snapshot stays',
+      lkg: 'Last-known-good', lkgSub: 'last-known-good · atomic swap',
+      lkgList: ['In-memory stable snapshot', 'Durably persisted good copy', 'Restored on startup'],
+      media: 'Cloud media', compose: 'Product composition', composeSub: 'enrich product with campaigns & media',
+      api: 'Safe product API', apiSub: 'a safe trader contract — no stock quantity, no cost',
+      apiList: ['ItemID', 'Name', 'Price', 'Campaign price', 'Availability', 'Image URL'],
+      apps: 'Flutter apps', appsSub: 'Web · iOS · Android',
+      orderLead: 'Order-acceptance path', orderSub: 'bypasses the cache · live ERP validation',
+      orderSteps: [['Trader order', 'arrives after submit'], ['Admin review', 'review & accept the order'], ['Live product validation', 're-check price & availability'], ['ERP', 'source of truth']],
+      note: 'A cache for reliable reads, and the live ERP for commercial decisions.', noteSub: 'Performance and availability without weakening transaction correctness.',
+    };
+---
+
+<!-- HERO -->
+<section class="cs-hero mc-hero">
+  <div class="wrap mc-hero-inner">
+    <nav aria-label="Breadcrumb" class="t-sm cs-bc"><a href={L('work')}>{t.bcWork}</a><span aria-hidden="true">/</span><span aria-current="page"><bdi dir="ltr">Magic Car</bdi></span></nav>
+    <div class="grid12 mc-hero-head">
+      <div class="mc-hero-l">
+        <span class="tag-own tag-client">{t.tag}</span>
+        <h1 class="t-h1"><bdi dir="ltr">Magic Car</bdi> — {t.title.replace('Magic Car — ', '')}</h1>
+        <p class="t-lead">{t.lead}</p>
+        <dl class="cs-meta mc-meta">
+          <dt class="muted">{t.mClient}</dt><dd><bdi dir="ltr">Magic Car</bdi></dd>
+          <dt class="muted">{t.mPlat}</dt><dd><bdi dir="ltr">Flutter · Web · iOS · Android</bdi></dd>
+          <dt class="muted">{t.mUsers}</dt><dd>{t.mUsersV}</dd>
+          <dt class="muted">{t.mSys}</dt><dd>{t.mSysV}</dd>
+        </dl>
+      </div>
+      <div class="mc-hero-r">
+        <svg class="mc-hero-blade" viewBox="0 0 360 780" width="420" aria-hidden="true"><path d="M9.9 6.7L302 203.8Q360 243 360 313L360 751Q360 763 350.1 756.3L58 559.2Q0 520 0 450L0 12Q0 0 9.9 6.7Z" fill="#F4F3F0" stroke="#E2E1DD"></path></svg>
+        <div class="mc-hero-phones">
+          <figure class="p0"><ResponsiveImage basePath="/work/magic-car/product-catalog" alt={t.altCatalog} width={369} height={800} class="shot-phone" loading="eager" /><figcaption class="fig-cap"><span class="n">01</span><span>{t.capCatalog}</span></figcaption></figure>
+          <figure class="p1"><ResponsiveImage basePath="/work/magic-car/cart" alt={t.altCart} width={369} height={800} class="shot-phone" /><figcaption class="fig-cap"><span class="n">02</span><span>{t.capCart}</span></figcaption></figure>
+          <figure class="p2"><ResponsiveImage basePath="/work/magic-car/order-history" alt={t.altOrders} width={369} height={800} class="shot-phone" /><figcaption class="fig-cap"><span class="n">03</span><span>{t.capOrders}</span></figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTEXT & CONSTRAINT -->
+<section class="sec">
+  <div class="wrap grid12 cs-ctx">
+    <div class="cs-ctx-label"><p class="sec-label"><span class="ix">01</span>{t.s1}</p></div>
+    <div class="mc-ctx-cols">
+      <div><h2 class="t-h4">{t.ctxH}</h2><p class="t-body">{t.ctx}</p></div>
+      <div><h2 class="t-h4">{t.conH}</h2><p class="t-body">{t.con}</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- INTEGRATION BOUNDARIES (dark) -->
+<section class="sec-lg dark">
+  <div class="wrap-wide cs-block">
+    <div class="grid12 cs-arch-head">
+      <div class="cs-arch-head-l"><p class="sec-label on-dark"><span class="ix">02</span>{t.s2}</p><h2 class="t-h2">{t.intH}</h2></div>
+      <p class="t-body cs-arch-head-r">{t.intLead}</p>
+    </div>
+    <HomeArchitecture locale={locale} />
+
+    <div class="grid12 cs-arch-head cs-arch-head2">
+      <div class="cs-arch-head-l"><h3 class="t-h3">{t.rcH}</h3><p class="t-sm" style="color:#A9ACAF">{t.rcSub}</p></div>
+    </div>
+    <figure class="diagram-box">
+      <div class="diagram-head"><span class="dg-title" style="color:#FAF9F7">{t.rcName}</span><span class="anno">{t.rcAnno}</span></div>
+      <div class="dg" style="padding:28px">
+        <div class="dg-flow mc-rc">
+          <div class="dg-node ext"><h4>{rc.erp}</h4><p>{rc.erpSub}</p><ul class="dg-list code"><li>ItemID</li><li>Barcode</li><li>Price</li><li>Stock / availability</li></ul><div class="dg-opt" style="font-size:12px">{rc.erpData}</div></div>
+          <div class="dg-link" aria-hidden="true"><Fragment set:html={linkArrow} /></div>
+          <div class="dg-node"><h4>{rc.refresh}</h4><p>{rc.refreshSub}</p><ul class="dg-list">{rc.refreshList.map((x) => <li>{x}</li>)}</ul><div class="dg-warn">{rc.warn}</div></div>
+          <div class="dg-link" aria-hidden="true"><Fragment set:html={linkArrow} /></div>
+          <div class="dg-node focal"><h4>{rc.lkg}</h4><p class="mono" style="font-size:11px">{rc.lkgSub}</p><ul class="dg-list">{rc.lkgList.map((x) => <li>{x}</li>)}</ul></div>
+          <div class="dg-link" aria-hidden="true"><Fragment set:html={linkArrow} /></div>
+          <div class="dg-node"><h4>{rc.compose}</h4><p>{rc.composeSub}</p><p class="mono" style="font-size:11px;direction:ltr">S3 → Lambda → CloudFront</p></div>
+          <div class="dg-link" aria-hidden="true"><Fragment set:html={linkArrow} /></div>
+          <div class="dg-node"><h4>{rc.api}</h4><p>{rc.apiSub}</p><ul class="dg-list code check">{rc.apiList.map((x) => <li>{x}</li>)}</ul></div>
+          <div class="dg-link" aria-hidden="true"><Fragment set:html={linkArrow} /></div>
+          <div class="dg-node"><h4><bdi dir="ltr">{rc.apps}</bdi></h4><p><bdi dir="ltr">Web · iOS · Android</bdi></p></div>
+        </div>
+        <div class="dg-strip" style="background:rgba(110,38,60,.18);border-color:rgba(212,154,170,.35)">
+          <div class="lead"><b>{rc.orderLead}</b><span>{rc.orderSub}</span></div>
+          {rc.orderSteps.map((s, i) => (
+            <>
+              <div class="dg-step"><span class="num">{String(i + 1).padStart(2, '0')}</span><div><b>{s[0]}</b><span>{s[1]}</span></div></div>
+              {i < rc.orderSteps.length - 1 && <div class="dg-link n" aria-hidden="true"><Fragment set:html={linkArrow} /></div>}
+            </>
+          ))}
+        </div>
+        <div class="dg-note" style="border-color:#D49AAA"><b style="color:#FAF9F7">{rc.note}</b><span style="color:#A9ACAF">{rc.noteSub}</span></div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- RESILIENT CATALOG DECISIONS -->
+<section class="sec">
+  <div class="wrap grid12 cs-dec">
+    <div class="mc-dec-label"><p class="sec-label"><span class="ix">03</span>{t.s3}</p><h2 class="t-h3">{t.rdH}</h2></div>
+    <ol class="mc-dec-list">
+      {t.decisions.map((d, i) => (
+        <li class:list={['cs-dec-row', { first: i === 0 }]}>
+          <span class="mono cs-dec-id">{d.id}</span>
+          <h3 class="t-h5">{d.h}</h3>
+          <p class="t-sm">{d.b}</p>
+        </li>
+      ))}
+    </ol>
+    <p class="anno mc-dec-anno">S3 → Lambda → CloudFront · last-known-good cache · live validation</p>
+  </div>
+</section>
+
+<!-- TRADER EXPERIENCE -->
+<section class="sec cs-alt">
+  <div class="wrap grid12 mc-tr">
+    <div class="mc-tr-l">
+      <p class="sec-label"><span class="ix">04</span>{t.s4}</p>
+      <h2 class="t-h3">{t.trH}</h2>
+      <p class="t-body">{t.tr}</p>
+    </div>
+    <div class="mc-tr-phones">
+      <figure class="p0"><ResponsiveImage basePath="/work/magic-car/cart" alt={t.altCart} width={369} height={800} class="shot-phone" /><figcaption class="fig-cap"><span class="n">Fig. 04</span><span>{t.figCart}</span></figcaption></figure>
+      <figure class="p1"><ResponsiveImage basePath="/work/magic-car/order-history" alt={t.altOrders} width={369} height={800} class="shot-phone" /><figcaption class="fig-cap"><span class="n">Fig. 05</span><span>{t.figOrders}</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- OPERATIONAL WORKFLOW -->
+<section class="sec">
+  <div class="wrap cs-block">
+    <div class="grid12 cs-arch-head">
+      <div class="cs-arch-head-l"><p class="sec-label"><span class="ix">05</span>{t.s5}</p><h2 class="t-h2">{t.opH}</h2></div>
+      <p class="t-body cs-arch-head-r">{t.op}</p>
+    </div>
+    <figure class="mc-admin-fig">
+      <ResponsiveImage basePath="/work/magic-car/admin-dashboard" alt={t.altAdmin} width={369} height={800} class="shot-phone" />
+      <figcaption class="fig-cap"><span class="n">Fig. 06</span><span>{t.figAdmin}</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- LESSONS -->
+<section class="sec cs-topborder">
+  <div class="wrap grid12 cs-dec">
+    <div class="cs-dec-label"><p class="sec-label"><span class="ix">06</span>{t.s6}</p></div>
+    <div class="mc-lessons">
+      {t.lessons.map((l) => (
+        <div class="mc-lesson"><h3 class="t-h5">{l.h}</h3><p class="t-sm">{l.b}</p></div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- NEXT -->
+<section class="cs-next">
+  <div class="wrap cs-next-inner">
+    <div class="cs-next-l"><span class="t-cap">{t.nextLabel}</span><a href={L('work/rihab')} class="t-h3 cs-next-link">{t.nextName}</a></div>
+    <a href={L('contact')} class="btn btn-primary">{t.startCta}</a>
+  </div>
+</section>
+
+<style>
+  .mc-hero { padding-top: 40px; overflow: hidden; }
+  .mc-hero-inner { display: flex; flex-direction: column; gap: 40px; position: relative; }
+  .cs-bc { display: flex; gap: 8px; align-items: center; color: var(--muted); }
+  .cs-bc a { color: var(--muted); } .cs-bc [aria-current] { color: var(--text); }
+  .mc-hero-head { align-items: center; row-gap: 48px; }
+  .mc-hero-l { grid-column: 1 / span 5; display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+  .mc-meta { grid-column: auto; margin-top: 8px; }
+  .cs-meta { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px 20px; font-size: 14px; border-top: 1px solid var(--text); padding-top: 16px; }
+  .cs-meta dd { margin: 0; }
+  .mc-hero-r { grid-column: 7 / span 6; position: relative; }
+  .mc-hero-blade { position: absolute; inset-inline-start: -60px; top: -80px; pointer-events: none; }
+  .mc-hero-phones { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: start; }
+  .mc-hero-phones .p1 { margin-top: 56px; }
+  .mc-hero-phones .p2 { margin-top: 112px; }
+
+  .cs-ctx { row-gap: 40px; }
+  .cs-ctx-label { grid-column: 1 / span 3; }
+  .mc-ctx-cols { grid-column: 4 / span 9; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; }
+  .mc-ctx-cols > div { display: flex; flex-direction: column; gap: 12px; }
+
+  .cs-block { display: flex; flex-direction: column; gap: 40px; }
+  .cs-arch-head { display: grid; grid-template-columns: repeat(12, minmax(0,1fr)); column-gap: 24px; align-items: end; }
+  .cs-arch-head-l { grid-column: 1 / span 6; display: flex; flex-direction: column; gap: 14px; }
+  .cs-arch-head-r { grid-column: 8 / span 5; }
+  .cs-arch-head2 { margin-top: 8px; }
+  .dg-title { font-size: 14px; font-weight: 500; }
+  .mc-rc { gap: 0; } .mc-rc .dg-link { flex: 0 0 56px; }
+
+  .cs-dec { row-gap: 32px; }
+  .cs-dec-label, .mc-dec-label { grid-column: 1 / span 3; display: flex; flex-direction: column; gap: 14px; }
+  .mc-dec-list { grid-column: 5 / span 8; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .cs-dec-row { display: grid; grid-template-columns: 56px minmax(0, 1fr) minmax(0, 1.3fr); gap: 24px; padding: 24px 0; border-top: 1px solid var(--border); }
+  .cs-dec-row.first { border-top: 1px solid var(--text); }
+  .cs-dec-row:last-child { border-bottom: 1px solid var(--border); }
+  .cs-dec-id { font-size: 12px; color: var(--burgundy); padding-top: 4px; }
+  .cs-dec-row .t-sm { color: var(--n700); }
+  .mc-dec-anno { grid-column: 5 / span 8; }
+
+  .cs-alt { background: var(--subtle); border-block: 1px solid var(--border); }
+  .mc-tr { align-items: center; row-gap: 40px; }
+  .mc-tr-l { grid-column: 1 / span 4; display: flex; flex-direction: column; gap: 16px; }
+  .mc-tr-phones { grid-column: 6 / span 7; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; max-width: 600px; margin-inline-start: auto; width: 100%; }
+  .mc-tr-phones .p1 { margin-top: 72px; }
+
+  .mc-admin-fig { max-width: 300px; }
+  .cs-topborder { border-top: 1px solid var(--border); }
+  .mc-lessons { grid-column: 4 / span 9; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .mc-lesson { border-top: 1px solid var(--text); padding-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .mc-lesson .t-sm { color: var(--n700); }
+
+  .cs-next { border-top: 1px solid var(--border); background: var(--surface); }
+  .cs-next-inner { padding-block: 56px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .cs-next-l { display: flex; flex-direction: column; gap: 6px; }
+  .cs-next-link { color: var(--strong); text-decoration: none; }
+  .cs-next-link:hover { color: var(--burgundy); }
+
+  @media (max-width: 900px) {
+    .mc-hero-l, .mc-hero-r, .cs-ctx-label, .mc-ctx-cols, .cs-arch-head-l, .cs-arch-head-r,
+    .cs-dec-label, .mc-dec-label, .mc-dec-list, .mc-dec-anno, .mc-tr-l, .mc-tr-phones, .mc-lessons { grid-column: 1 / -1 !important; }
+    .mc-ctx-cols { grid-template-columns: 1fr; gap: 24px; }
+    .mc-dec-list { margin-top: 8px; }
+    .cs-dec-row { grid-template-columns: 56px minmax(0,1fr); }
+    .cs-dec-row .t-sm { grid-column: 2; }
+    .mc-lessons { grid-template-columns: 1fr; }
+  }
+</style>

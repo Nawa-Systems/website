@@ -2,24 +2,10 @@
 import Base from '../../../layouts/Base.astro';
 import WorkIndex from '../../../components/WorkIndex.astro';
 
-const title = 'أعمالنا — نواة';
-const description = 'رحاب، منتج نواة الخاص، وماجيك كار، مشروع تكامل لعميل حقيقي — عملان حقيقيان بأدلة حقيقية.';
+const title = 'الأعمال — نواة';
+const description = 'رحاب، منتج نواة الخاص، وMagic Car، مشروع تكامل لعميل — أعمال تُعرض كواجهات ومعمارية وقرارات حقيقية.';
 ---
 
 <Base locale="ar" title={title} description={description} path="/ar/work">
-  <header class="container page-header">
-    <h1>أعمالنا</h1>
-    <p>رحاب منتج تملكه نواة. ماجيك كار مشروع لعميل. كل مشروع موسوم بوضوح بطبيعته.</p>
-  </header>
   <WorkIndex locale="ar" />
 </Base>
-
-<style>
-  .page-header {
-    padding-top: var(--space-6);
-    max-width: var(--max-width-prose);
-  }
-  .page-header p {
-    color: var(--color-secondary-text);
-  }
-</style>

@@ -1,0 +1,75 @@
+---
+import type { Locale } from '../lib/i18n';
+
+interface Post { id: string; title: string; description: string }
+interface Props { locale: Locale; posts: Post[] }
+const { locale, posts } = Astro.props;
+const isAr = locale === 'ar';
+const L = (slug: string) => `/${locale}/${slug}`;
+
+const t = isAr
+  ? { label: 'مقالات', title: 'ملاحظات هندسية من عمل حقيقي.', lead: 'نكتب عن المعمارية والتكامل والأتمتة كما نمارسها: قرارات، وبدائل، ودروس من مشاريع فعلية.', status: 'لا توجد مقالات منشورة بعد', emptyH: 'أول المقالات قيد الكتابة.', emptyB: 'نفضّل ألا ننشر شيئًا على أن ننشر محتوى عامًا. ستظهر المقالات هنا عند نشرها، وكل مقال سيستند إلى عمل حقيقي.', caseCta: 'اقرأ دراسات الحالة', suggest: 'اقترح موضوعًا' }
+  : { label: 'Insights', title: 'Engineering notes from real work.', lead: 'We write about architecture, integration and automation the way we practise them: decisions, alternatives, and lessons from actual projects.', status: 'No published articles yet', emptyH: 'The first articles are being written.', emptyB: 'We would rather publish nothing than publish generic content. Articles will appear here as they are published, each grounded in real work.', caseCta: 'Read the case studies', suggest: 'Suggest a topic' };
+---
+
+<section class="in-hero">
+  <div class="wrap grid12 in-hero-inner">
+    <div class="in-hero-l"><p class="sec-label">{t.label}</p><h1 class="t-h1">{t.title}</h1></div>
+    <p class="t-body in-hero-r">{t.lead}</p>
+  </div>
+</section>
+
+{posts.length === 0 ? (
+  <section class="sec-lg">
+    <div class="wrap grid12 in-empty">
+      <div class="in-empty-l">
+        <span class="status planned"><i></i>{t.status}</span>
+        <h2 class="t-h3">{t.emptyH}</h2>
+        <p class="t-body">{t.emptyB}</p>
+        <div class="in-empty-ctas">
+          <a href={L('work')} class="btn btn-secondary">{t.caseCta}</a>
+          <a href={L('contact')} class="btn btn-secondary">{t.suggest}</a>
+        </div>
+      </div>
+      <div class="in-empty-r" aria-hidden="true">
+        <svg viewBox="0 0 420 260" width="100%" style="display:block">
+          <rect x="40" y="40" width="340" height="180" rx="14" fill="#fff" stroke="#A9ACAF" stroke-dasharray="5 5"></rect>
+          <path d="M308 76h40M248 100h100M288 124h60" stroke="#E2E1DD" stroke-width="8" stroke-linecap="round"></path>
+          <path d="M78.1 70.8L101.4 86.5Q110 92.3 110 102.7L110 166.7Q110 169.7 107.5 168L84.2 152.3Q72 144 72 133.6L72 72.6Q72 69.6 78.1 70.8Z" fill="none" stroke="#2A2C2F" stroke-width="1.25"></path>
+          <circle cx="128" cy="62" r="9" fill="#6E263C"></circle>
+        </svg>
+      </div>
+    </div>
+  </section>
+) : (
+  <section class="sec">
+    <ul class="wrap in-list">
+      {posts.map((post) => (
+        <li>
+          <a href={L(`insights/${post.id}`)}>
+            <h2 class="t-h4">{post.title}</h2>
+            <p class="t-sm">{post.description}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+<style>
+  .in-hero { border-bottom: 1px solid var(--border); }
+  .in-hero-inner { padding-top: 80px; padding-bottom: 56px; align-items: end; row-gap: 24px; }
+  .in-hero-l { grid-column: 1 / span 7; display: flex; flex-direction: column; gap: 20px; }
+  .in-hero-r { grid-column: 9 / span 4; }
+  .in-empty { align-items: center; row-gap: 40px; }
+  .in-empty-l { grid-column: 1 / span 6; display: flex; flex-direction: column; gap: 18px; align-items: flex-start; }
+  .in-empty-r { grid-column: 8 / span 5; }
+  .in-empty-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+  .in-list { list-style: none; margin: 0; padding: 0; max-width: 42rem; }
+  .in-list li { border-top: 1px solid var(--border); padding-block: 24px; }
+  .in-list a { text-decoration: none; color: inherit; display: block; }
+  .in-list p { margin-top: 6px; }
+  @media (max-width: 900px) {
+    .in-hero-l, .in-hero-r, .in-empty-l, .in-empty-r { grid-column: 1 / -1 !important; }
+  }
+</style>

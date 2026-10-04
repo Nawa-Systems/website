@@ -1,12 +1,11 @@
 ---
 import Base from '../../../layouts/Base.astro';
-import CaseStudy from '../../../components/CaseStudy.astro';
-import { getMagicCarCopy } from '../../../data/caseStudies/magicCarCopy';
+import MagicCarCaseStudy from '../../../components/MagicCarCaseStudy.astro';
 
-const copy = getMagicCarCopy('en');
-const title = `${copy.title} — Nawa`;
+const title = 'Magic Car — case study · Nawa';
+const description = 'Magic Car: a modern B2B trader layer around an existing ERP that stays authoritative — a resilient last-known-good catalog, live order validation, and an S3 → Lambda → CloudFront media pipeline.';
 ---
 
-<Base locale="en" title={title} description={copy.summary} path="/en/work/magic-car">
-  <CaseStudy slug="magic-car" {...copy} />
+<Base locale="en" title={title} description={description} path="/en/work/magic-car">
+  <MagicCarCaseStudy locale="en" />
 </Base>
